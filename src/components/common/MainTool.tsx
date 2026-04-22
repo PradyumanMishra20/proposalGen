@@ -52,6 +52,8 @@ interface SelectOption {
   label: string;
 }
 
+type Theme = 'light' | 'dark';
+
 // Utility functions
 const getFieldClasses = (
   hasError: boolean,
@@ -243,7 +245,7 @@ const MainTool: React.FC = () => {
     );
 
     return allRequiredFilled;
-  }, [errors, proposalData, validationRules]);
+  }, [errors, proposalData]);
 
   // Handle field change with validation
   const handleFieldChange = useCallback((fieldName: ValidatableField, value: string) => {

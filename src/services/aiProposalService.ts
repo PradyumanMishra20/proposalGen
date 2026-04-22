@@ -80,7 +80,7 @@ const formatSectionTitle = (section: string): string => {
 };
 
 const generateMockSectionContent = (section: string, data: ProposalData, template: any): string => {
-  const { clientName, description, yourRole, clientType, experienceLevel, deadlineSensitivity } = data;
+  const { description, clientType, experienceLevel, deadlineSensitivity } = data;
   
   switch (section) {
     case 'executive_summary':

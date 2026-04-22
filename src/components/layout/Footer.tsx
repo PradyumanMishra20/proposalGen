@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Users, Code } from 'lucide-react';
 import ComingSoonModal from '../ui/ComingSoonModal';
+import ComingSoonBadge from '../ui/ComingSoonBadge';
+import SmartLink from '../ui/SmartLink';
 
 interface FooterLink {
   name: string;
