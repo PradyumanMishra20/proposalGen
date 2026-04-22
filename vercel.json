@@ -1,0 +1,34 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    }
+  ],
+  "env": {
+    "VITE_OPENAI_API_KEY": "@openai-api-key",
+    "VITE_GA_MEASUREMENT_ID": "@ga-measurement-id",
+    "VITE_ENABLE_ANALYTICS": "false",
+    "VITE_ENABLE_DEBUG": "false",
+    "VITE_ANALYTICS_DEBUG": "false",
+    "VITE_APP_NAME": "ProposalGen",
+    "VITE_APP_VERSION": "1.0.0",
+    "VITE_SUPPORT_EMAIL": "support@proposalgen.com",
+    "VITE_CONTACT_EMAIL": "contact@proposalgen.com"
+  },
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
+  "installCommand": "npm install",
+  "framework": "create-react-app",
+  "functions": {},
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

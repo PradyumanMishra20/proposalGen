@@ -1,0 +1,54 @@
+{
+  "name": "proposalgen",
+  "version": "1.0.0",
+  "description": "Generate winning freelance proposals in seconds with AI-powered ProposalGen",
+  "main": "src/index.tsx",
+  "private": true,
+  "dependencies": {
+    "autoprefixer": "^10.4.16",
+    "framer-motion": "^12.38.0",
+    "lucide-react": "^1.8.0",
+    "postcss": "^8.4.32",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^7.14.1",
+    "react-scripts": "5.0.1",
+    "tailwindcss": "^3.4.1",
+    "zustand": "^5.0.12"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "tsc --noEmit --watch",
+    "build:ts": "tsc && react-scripts build",
+    "dev": "npm run type-check && npm start",
+    "start:dev": "cp tsconfig.dev.json tsconfig.temp.json && react-scripts start && cp tsconfig.temp.json tsconfig.json && rm tsconfig.temp.json"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "@types/react": "^18.3.28",
+    "@types/react-dom": "^18.3.7",
+    "typescript": "^6.0.3"
+  }
+}
