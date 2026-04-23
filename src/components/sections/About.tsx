@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Users, Target, Shield, Zap } from 'lucide-react';
+import defaultAvatar from '../../assets/images/blaogAi.jpg';
 
 // About component props
 interface AboutProps {
@@ -39,7 +40,7 @@ const About: React.FC<AboutProps> = ({ className = '' }) => {
       name: 'Sushant Kapoor',
       role: 'Founder & Developer',
       description: 'I built ProposalGen to help freelancers save time and write better proposals without stress. Focused on creating simple, powerful tools that solve real problems.',
-      avatar: ''
+      avatar: defaultAvatar
     }
   ];
 
@@ -162,19 +163,12 @@ const About: React.FC<AboutProps> = ({ className = '' }) => {
                     : 'bg-white/90 border-gray-200/60 hover:bg-white/95'
                 }`}
               >
-                {member.avatar ? (
-                  <img
+                <img
                     src={member.avatar}
-                    alt={member.name}
+                    alt={`${member.name} - ${member.role} profile picture`}
                     className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-white/20 shadow-lg"
+                    loading="lazy"
                   />
-                ) : (
-                  <div className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-white/20 shadow-lg bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center">
-                    <span className="text-white text-2xl font-bold">
-                      {member.name.split(' ').map(n => n[0]).join('')}
-                    </span>
-                  </div>
-                )}
                 <h4 className={`text-lg font-bold mb-1 ${
                   theme === 'dark' ? 'text-white' : 'text-gray-900'
                 }`}>

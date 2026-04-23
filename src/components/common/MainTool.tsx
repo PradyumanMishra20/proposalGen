@@ -253,7 +253,7 @@ const MainTool: React.FC = () => {
       setErrors(prev => ({ ...prev, [fieldName]: '' }));
     }
     updateProposalData(fieldName, value);
-  }, [updateProposalData]);
+  }, [errors, updateProposalData]);
 
   // Handle field blur
   const handleFieldBlur = useCallback((fieldName: ValidatableField) => {

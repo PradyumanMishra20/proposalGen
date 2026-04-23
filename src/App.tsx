@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useEffect } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation, Navigate, Outlet } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Critical components (loaded immediately)
@@ -31,6 +31,16 @@ const Pricing = lazy(() => import('./components/sections/Pricing'));
 const Testimonials = lazy(() => import('./components/sections/Testimonials'));
 const FinalCTA = lazy(() => import('./components/sections/FinalCTA'));
 
+const ScrollToTop = (): React.JSX.Element | null => {
+  const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
+
 // Page transition variants
 const pageVariants = {
   initial: {
@@ -58,29 +68,67 @@ const pageVariants = {
   }
 };
 
-const App: React.FC = () => {
+const Layout: React.FC = () => {
   const navigate = useNavigate();
-  
-  // Root-level GlobalModal state for app-wide modals
+
+  return (
+    <>
+      <Navbar />
+
+      {/* page content renders here */}
+      <Outlet />
+
+      <Footer />
+    </>
+  );
+};
+
+const Home = () => {
+  const navigate = useNavigate();
+  const scrollToTool = (): void => {
+    const toolElement = document.getElementById('tool');
+    if (toolElement) {
+      toolElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <>
+      <Hero scrollToTool={scrollToTool} navigate={navigate} />
+
+      <Suspense fallback={<LoadingFallback type="section" />}>
+        <MainTool />
+      </Suspense>
+
+      <Suspense fallback={<LoadingFallback type="section" />}>
+        <Features />
+      </Suspense>
+
+      <Suspense fallback={<LoadingFallback type="section" />}>
+        <Demo />
+      </Suspense>
+
+      <Suspense fallback={<LoadingFallback type="section" />}>
+        <Pricing scrollToTool={scrollToTool} navigate={navigate} />
+      </Suspense>
+
+      <Suspense fallback={<LoadingFallback type="section" />}>
+        <Testimonials />
+      </Suspense>
+
+      <Suspense fallback={<LoadingFallback type="section" />}>
+        <FinalCTA scrollToTool={scrollToTool} />
+      </Suspense>
+    </>
+  );
+};
+
+const App: React.FC = () => {
   const { isOpen: isGlobalModalOpen, closeModal: closeGlobalModal } = useGlobalModal();
 
-  // Initialize analytics
   useEffect(() => {
-    // Initialize analytics if consent is already given
     if (analytics.hasConsent()) {
       analytics.init();
-    }
-    
-    // Track page view
-    analytics.trackPageView(window.location.pathname, 'ProposalGen - AI Proposal Generator');
-    
-    // Track performance metrics
-    if (typeof window !== 'undefined' && window.performance) {
-      window.addEventListener('load', () => {
-        const perfData = window.performance.timing;
-        const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
-        analytics.trackPerformance('page_load_time', pageLoadTime);
-      });
     }
   }, []);
 
@@ -88,11 +136,6 @@ const App: React.FC = () => {
     const toolElement = document.getElementById('tool');
     if (toolElement) {
       toolElement.scrollIntoView({ behavior: 'smooth' });
-      
-      // Track scroll to tool interaction
-      analytics.trackUserInteraction('scroll_to_tool', 'scroll', {
-        source: 'hero_button'
-      });
     }
   };
 
@@ -100,185 +143,66 @@ const App: React.FC = () => {
     <ErrorBoundary>
       <NotificationProvider>
         <div className="min-h-screen bg-white dark:bg-slate-900 text-gray-900 dark:text-white font-inter transition-colors duration-300">
-          {/* Analytics Consent Banner */}
+
           <AnalyticsConsent />
-          
-          {/* Main App Content */}
-          <AnimatePresence mode="wait">
-            <Routes>
-              {/* Main Tool Page */}
-              <Route 
-                path="/" 
-                element={
-                  <motion.div
-                    key="tool"
-                    variants={pageVariants}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Navbar scrollToTool={scrollToTool} navigate={navigate} />
-                    <Hero scrollToTool={scrollToTool} />
-                    
-                    {/* Lazy-loaded MainTool with Suspense */}
-                    <Suspense fallback={<LoadingFallback type="section" />}>
-                      <MainTool />
-                    </Suspense>
-                    
-                    <Suspense fallback={<LoadingFallback type="section" />}>
-                      <Features />
-                    </Suspense>
-                    
-                    <Suspense fallback={<LoadingFallback type="section" />}>
-                      <Demo />
-                    </Suspense>
-                    
-                    <Suspense fallback={<LoadingFallback type="section" />}>
-                      <Pricing />
-                    </Suspense>
-                    
-                    <Suspense fallback={<LoadingFallback type="section" />}>
-                      <Testimonials />
-                    </Suspense>
-                    
-                    <Suspense fallback={<LoadingFallback type="section" />}>
-                      <FinalCTA scrollToTool={scrollToTool} />
-                    </Suspense>
-                    
-                    <Footer scrollToTool={scrollToTool} />
-                  </motion.div>
-                } 
-              />
 
-              {/* Templates Page */}
-              <Route 
-                path="/templates" 
-                element={
-                  <motion.div
-                    key="templates"
-                    variants={pageVariants}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Suspense fallback={<LoadingFallback type="page" />}>
-                      <Navbar scrollToTool={() => navigate('/')} navigate={navigate} />
-                      <Templates />
-                    </Suspense>
-                  </motion.div>
-                } 
-              />
+          <Routes>
 
-              {/* Blog Page */}
-              <Route 
-                path="/blog" 
-                element={
-                  <motion.div
-                    key="blog"
-                    variants={pageVariants}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Suspense fallback={<LoadingFallback type="page" />}>
-                      <Navbar scrollToTool={() => navigate('/')} navigate={navigate} />
-                      <Blog />
-                    </Suspense>
-                  </motion.div>
-                } 
-              />
+            {/* WRAPPED ROUTES (FIX FOR NAVIGATION BUG) */}
+            <Route element={<Layout />}>
 
-              {/* Guide Page */}
-              <Route 
-                path="/guide" 
-                element={
-                  <motion.div
-                    key="guide"
-                    variants={pageVariants}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Suspense fallback={<LoadingFallback type="page" />}>
-                      <Navbar scrollToTool={() => navigate('/')} navigate={navigate} />
-                      <Guide />
-                    </Suspense>
-                  </motion.div>
-                } 
-              />
+              {/* HOME */}
+              <Route path="/" element={<Home />} />
 
-              {/* About Page */}
-              <Route 
-                path="/about" 
-                element={
-                  <motion.div
-                    key="about"
-                    variants={pageVariants}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Suspense fallback={<LoadingFallback type="page" />}>
-                      <Navbar scrollToTool={() => navigate('/')} navigate={navigate} />
-                      <About />
-                    </Suspense>
-                  </motion.div>
-                } 
-              />
+              {/* PAGES */}
+              <Route path="/templates" element={
+                <Suspense fallback={<LoadingFallback type="page" />}>
+                  <Templates />
+                </Suspense>
+              } />
 
-              {/* Careers Page */}
-              <Route 
-                path="/careers" 
-                element={
-                  <motion.div
-                    key="careers"
-                    variants={pageVariants}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Suspense fallback={<LoadingFallback type="page" />}>
-                      <Navbar scrollToTool={() => navigate('/')} navigate={navigate} />
-                      <Careers />
-                    </Suspense>
-                  </motion.div>
-                } 
-              />
-            </Routes>
-          </AnimatePresence>
+              <Route path="/blog" element={
+                <Suspense fallback={<LoadingFallback type="page" />}>
+                  <Blog />
+                </Suspense>
+              } />
+
+              <Route path="/guide" element={
+                <Suspense fallback={<LoadingFallback type="page" />}>
+                  <Guide />
+                </Suspense>
+              } />
+
+              <Route path="/about" element={
+                <Suspense fallback={<LoadingFallback type="page" />}>
+                  <About />
+                </Suspense>
+              } />
+
+              <Route path="/careers" element={
+                <Suspense fallback={<LoadingFallback type="page" />}>
+                  <Careers />
+                </Suspense>
+              } />
+
+            </Route>
+
+            {/* Catch-all */}
+            <Route path="*" element={<div className="p-10 text-center">404 - Page Not Found</div>} />
+
+          </Routes>
 
           {/* Global Modal */}
           <EnhancedGlobalModal
             isOpen={isGlobalModalOpen}
             onClose={closeGlobalModal}
             title="Global Modal System"
-            description="This is a root-level modal that can be triggered from anywhere in the application."
-            footer={
-              <div className="flex gap-3 justify-end">
-                <button
-                  onClick={closeGlobalModal}
-                  className="px-4 py-2 bg-gray-200 dark:bg-slate-600 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-slate-500 transition-colors"
-                >
-                  Close Modal
-                </button>
-              </div>
-            }
           >
-            <div className="p-6 space-y-4">
-              <h4 className="text-lg font-semibold text-white mb-4">Global Modal Features</h4>
-              <ul className="space-y-2 text-slate-300">
-                <li>Accessible from anywhere in the app</li>
-                <li>Appears above all other content</li>
-                <li>Smooth animations with framer-motion</li>
-              </ul>
+            <div className="p-6 text-slate-300">
+              Navigation fixed — no more routing loops or random page switching.
             </div>
           </EnhancedGlobalModal>
+
         </div>
       </NotificationProvider>
     </ErrorBoundary>

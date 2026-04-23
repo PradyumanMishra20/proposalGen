@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../../contexts/ThemeContext';
+import defaultAvatar from '../../assets/images/blaogAi.jpg';
 
 // Star rating component
 const StarRating = () => (
@@ -26,21 +27,21 @@ const Testimonials: React.FC<TestimonialsProps> = ({ className = '' }) => {
       name: 'Anonymous',
       role: 'Freelance Developer',
       content: 'ProposalGen has saved me hours of work. The AI-generated proposals are professional and help me win more clients.',
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+      avatar: defaultAvatar,
       rating: 5
     },
     {
       name: 'Anonymous',
       role: 'Marketing Consultant',
       content: 'The quality of proposals is impressive. My clients love the professional format and clear messaging.',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+      avatar: defaultAvatar,
       rating: 5
     },
     {
       name: 'Anonymous',
       role: 'UI/UX Designer',
       content: 'Simple to use and delivers great results. I can now focus on my work instead of writing proposals.',
-      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+      avatar: defaultAvatar,
       rating: 5
     }
   ];
@@ -102,8 +103,9 @@ const Testimonials: React.FC<TestimonialsProps> = ({ className = '' }) => {
                 <div className="relative">
                   <img
                     src={testimonial.avatar}
-                    alt={testimonial.name}
+                    alt={`${testimonial.name} - ${testimonial.role} profile picture`}
                     className="w-16 h-16 rounded-full object-cover border-3 border-white/20 shadow-lg shadow-indigo-500/20"
+                    loading="lazy"
                   />
                   {/* Professional status indicator */}
                   <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full border-3 border-white dark:border-slate-800 shadow-lg shadow-green-500/25"></div>

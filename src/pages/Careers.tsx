@@ -99,7 +99,7 @@ const Careers: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <motion.button
-                onClick={() => console.log('Viewing open positions')}
+                onClick={() => window.open('/careers', '_blank')}
                 className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-medium hover:from-indigo-700 hover:to-purple-700 transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -107,7 +107,7 @@ const Careers: React.FC = () => {
                 View Open Positions
               </motion.button>
               <motion.button
-                onClick={() => console.log('Learning more about careers')}
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className="px-6 py-3 bg-slate-700 text-gray-300 rounded-lg font-medium hover:bg-slate-600 hover:text-white transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -207,7 +207,7 @@ const Careers: React.FC = () => {
                 {position.description}
               </p>
               <motion.button
-                onClick={() => console.log(`Applying for position: ${position.title}`)}
+                onClick={() => window.open(`mailto:careers@proposalgen.com?subject=Application for ${position.title}&body=I'm interested in the ${position.title} position.`, '_blank')}
                 className="px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors text-sm"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -276,7 +276,7 @@ const Careers: React.FC = () => {
             We're always interested in hearing from talented people. Send us your resume and let us know how you can contribute to our mission.
           </p>
           <motion.button
-            onClick={() => console.log('Sending resume to careers team')}
+            onClick={() => window.open('mailto:careers@proposalgen.com?subject=Resume Submission&body=I would like to submit my resume for consideration.', '_blank')}
             className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-medium hover:from-indigo-700 hover:to-purple-700 transition-all duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

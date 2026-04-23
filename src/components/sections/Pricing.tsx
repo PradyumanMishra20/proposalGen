@@ -5,9 +5,11 @@ import { useTheme } from '../../contexts/ThemeContext';
 // Pricing component props
 interface PricingProps {
   className?: string;
+  scrollToTool: () => void;
+  navigate: (path: string) => void;
 }
 
-const Pricing: React.FC<PricingProps> = ({ className = '' }) => {
+const Pricing: React.FC<PricingProps> = ({ className = '', scrollToTool, navigate }) => {
   const { theme } = useTheme();
 
   const plans = [
@@ -155,13 +157,13 @@ const Pricing: React.FC<PricingProps> = ({ className = '' }) => {
                   onClick={() => {
                     if (plan.name === 'Free') {
                       // Navigate to the tool for free plan
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                      scrollToTool();
                     } else if (plan.name === 'Agency') {
                       // Contact sales for agency
                       window.location.href = 'mailto:sales@proposalgen.com?subject=Agency Plan Inquiry';
                     } else {
                       // Get started for professional
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                      scrollToTool();
                     }
                   }}
                 >

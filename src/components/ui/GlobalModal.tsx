@@ -162,46 +162,10 @@ const GlobalModal: React.FC<GlobalModalProps> = ({
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Handle URL history management
+  // Handle URL history management - DISABLED to prevent navigation interference
   useEffect(() => {
-    if (enableHistory) {
-      if (isOpen) {
-        // Update URL when modal opens
-        const currentUrl = new URL(window.location.href);
-        currentUrl.searchParams.set(modalState, 'true');
-        const newUrl = currentUrl.toString();
-        
-        // Push new state to history
-        window.history.pushState(
-          { modalOpen: true, modalId },
-          '',
-          newUrl
-        );
-        
-        // Add popstate listener for back button
-        const handlePopState = (event: PopStateEvent) => {
-          if (event.state?.modalOpen) {
-            // Modal was open, now going back - close modal
-            isHistoryClose.current = true;
-            onClose();
-          }
-        };
-        
-        window.addEventListener('popstate', handlePopState);
-        
-        return () => {
-          window.removeEventListener('popstate', handlePopState);
-        };
-      } else {
-        // Handle modal close
-        if (!isHistoryClose.current) {
-          // Modal closed by user, go back in history
-          window.history.back();
-        }
-        // Reset flag
-        isHistoryClose.current = false;
-      }
-    }
+    // History management disabled to prevent unwanted navigation redirects
+    // Modal will work without URL state management
     return undefined;
   }, [isOpen, enableHistory, modalId, modalState, onClose]);
   // Enhanced body scroll prevention with cleanup

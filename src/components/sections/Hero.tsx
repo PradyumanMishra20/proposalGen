@@ -1,18 +1,20 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useGlobalModal, EnhancedGlobalModal } from '../ui/GlobalModal';
+import heroPageImage from '../../assets/images/heropage.avif';
 
 // Hero component props
 interface HeroProps {
   scrollToTool: () => void;
+  navigate: (path: string) => void;
 }
 
-const Hero: React.FC<HeroProps> = ({ scrollToTool }) => {
+const Hero: React.FC<HeroProps> = ({ scrollToTool, navigate }) => {
   const { isOpen: isGlobalModalOpen, closeModal: closeGlobalModal } = useGlobalModal();
 
   const openExampleModal = () => {
     // Navigate to templates page for examples
-    window.location.href = '/templates';
+    navigate('/templates');
   };
 
   return (
@@ -146,9 +148,10 @@ const Hero: React.FC<HeroProps> = ({ scrollToTool }) => {
                 {/* Branded background with subtle pattern */}
                 <div className="absolute inset-0 opacity-20">
                   <img
-                    src="https://images.unsplash.com/photo-1557804506-669571d98af8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
-                    alt="Professional workspace with laptop"
+                    src={heroPageImage}
+                    alt="ProposalGen interface showing AI-powered proposal generation workspace"
                     className="w-full h-full object-cover"
+                    loading="eager"
                   />
                   <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/30 via-purple-600/20 to-slate-900/40"></div>
                 </div>

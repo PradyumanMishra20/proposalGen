@@ -1,5 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '../../contexts/ThemeContext';
+import heroBackgroundImage from '../../assets/images/heroBackground.jpg';
 
 const HeroImage: React.FC = () => {
   return (
@@ -26,9 +28,10 @@ const HeroImage: React.FC = () => {
           {/* Subtle workspace background */}
           <div className="absolute inset-0 opacity-10">
             <img
-              src="https://images.unsplash.com/photo-1586281380349-632c89db7131?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
-              alt="Workspace"
+              src={heroBackgroundImage}
+              alt="Professional workspace environment for proposal generation"
               className="w-full h-full object-cover"
+              loading="lazy"
             />
           </div>
           

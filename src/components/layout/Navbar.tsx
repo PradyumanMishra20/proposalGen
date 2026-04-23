@@ -1,13 +1,8 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../contexts/ThemeContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import ThemeToggle from '../ui/ThemeToggle';
-import SmartLink from '../ui/SmartLink';
-import TemplatesContent from './TemplatesContent';
-import BlogContent from './BlogContent';
-import GuideContent from './GuideContent';
-import AboutContent from './AboutContent';
 
 interface NavLink {
   name: string;
@@ -16,40 +11,33 @@ interface NavLink {
   component?: React.ReactNode;
 }
 
-interface NavbarProps {
-  scrollToTool?: () => void;
-  navigate?: (path: string) => void;
-}
-
-const Navbar: React.FC<NavbarProps> = ({ scrollToTool, navigate }) => {
+const Navbar: React.FC = () => {
   const { theme } = useTheme();
-  const routerNavigate = useNavigate();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   const navLinks: NavLink[] = [
     { name: 'Home', path: '/', type: 'nav' },
-    { name: 'Templates', path: '/templates', type: 'modal', component: <TemplatesContent /> },
-    { name: 'Blog', path: '/blog', type: 'modal', component: <BlogContent /> },
-    { name: 'Guide', path: '/guide', type: 'modal', component: <GuideContent /> },
-    { name: 'About', path: '/about', type: 'modal', component: <AboutContent /> },
+    { name: 'Templates', path: '/templates', type: 'nav' },
+    { name: 'Blog', path: '/blog', type: 'nav' },
+    { name: 'Guide', path: '/guide', type: 'nav' },
+    { name: 'About', path: '/about', type: 'nav' },
     { name: 'Careers', path: '/careers', type: 'nav' }
   ];
 
   const handleNavClick = (link: NavLink) => {
-    if (link.type === 'nav') {
-      if (navigate) {
-        navigate(link.path);
-      } else {
-        routerNavigate(link.path);
-      }
-    }
-    // Close mobile menu after navigation
+    navigate(link.path);
     setIsMobileMenuOpen(false);
   };
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+
+  React.useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
 
   return (
     <motion.nav
@@ -66,8 +54,8 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToTool, navigate }) => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <button
-              onClick={() => handleNavClick(navLinks[0])}
+            <Link
+              to="/"
               className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
             >
               <div className="w-8 h-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
@@ -78,43 +66,22 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToTool, navigate }) => {
               }`}>
                 ProposalGen
               </span>
-            </button>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link, index) => (
-              link.type === 'modal' ? (
-                <SmartLink
-                  key={link.name}
-                  component={link.component}
-                  modalOptions={{ size: 'lg', showCloseButton: true }}
-                  className={`relative px-3 py-2 text-sm font-medium transition-colors ${
-                    theme === 'dark'
-                      ? 'text-gray-300 hover:text-white'
-                      : 'text-gray-700 hover:text-gray-900'
-                  }`}
-                >
-                  <span className="relative">
-                    {link.name}
-                    <motion.div
-                      className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-indigo-600 to-purple-600"
-                      initial={{ scaleX: 0 }}
-                      whileHover={{ scaleX: 1 }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </span>
-                </SmartLink>
-              ) : (
-                <button
-                  key={link.name}
-                  onClick={() => handleNavClick(link)}
-                  className={`relative px-3 py-2 text-sm font-medium transition-colors ${
-                    theme === 'dark'
-                      ? 'text-gray-300 hover:text-white'
-                      : 'text-gray-700 hover:text-gray-900'
-                  }`}
-                >
+              <Link
+                key={link.name}
+                to={link.path}
+                className={`relative px-3 py-2 text-sm font-medium transition-colors ${
+                  theme === 'dark'
+                    ? 'text-gray-300 hover:text-white'
+                    : 'text-gray-700 hover:text-gray-900'
+                }`}
+              >
+                <span className="relative">
                   {link.name}
                   <motion.div
                     className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-indigo-600 to-purple-600"
@@ -122,8 +89,8 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToTool, navigate }) => {
                     whileHover={{ scaleX: 1 }}
                     transition={{ duration: 0.3 }}
                   />
-                </button>
-              )
+                </span>
+              </Link>
             ))}
           </div>
 
@@ -133,7 +100,13 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToTool, navigate }) => {
             
             {/* Generate Proposal Button */}
             <motion.button
-              onClick={scrollToTool}
+              onClick={() => {
+                if (location.pathname === '/') {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                  navigate('/');
+                }
+              }}
               className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
                 theme === 'dark'
                   ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700'
@@ -180,34 +153,18 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToTool, navigate }) => {
               theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-white border-gray-200'
             }`}>
               {navLinks.map((link) => (
-                link.type === 'modal' ? (
-                  <SmartLink
-                    key={link.name}
-                    component={link.component}
-                    modalOptions={{ size: 'lg', showCloseButton: true }}
-                    className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                      theme === 'dark'
-                        ? 'text-gray-300 hover:text-white hover:bg-slate-800'
-                        : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
-                    }`}
-                  >
-                    {link.name}
-                  </SmartLink>
-                ) : (
-                  <motion.button
-                    key={link.name}
-                    onClick={() => handleNavClick(link)}
-                    className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                      theme === 'dark'
-                        ? 'text-gray-300 hover:text-white hover:bg-slate-800'
-                        : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
-                    }`}
-                    whileHover={{ x: 5 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {link.name}
-                  </motion.button>
-                )
+                <Link
+                  key={link.name}
+                  to={link.path}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                    theme === 'dark'
+                      ? 'text-gray-300 hover:text-white hover:bg-slate-800'
+                      : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
+                  }`}
+                >
+                  {link.name}
+                </Link>
               ))}
             </div>
           </motion.div>

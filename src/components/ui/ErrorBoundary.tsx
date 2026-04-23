@@ -90,7 +90,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
               </button>
               
               <button
-                onClick={() => window.location.reload()}
+                onClick={() => window.location.href = '/'}
                 className="px-6 py-3 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition-all duration-200"
               >
                 Reload Page

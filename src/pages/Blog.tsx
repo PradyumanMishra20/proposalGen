@@ -1,6 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, User, ArrowRight, BookOpen } from 'lucide-react';
+import blogBusinessImage from '../assets/images/blogbusiness.jpg';
+import blogCommunicationImage from '../assets/images/blogCommunication.jpg';
+import blogDealImage from '../assets/images/blogDeal.jpg';
+import blogTechnologyImage from '../assets/images/blogTechnology.jpg';
+import blogFreelanceImage from '../assets/images/blogfreelance.webp';
 
 interface BlogPost {
   title: string;
@@ -17,59 +22,59 @@ const Blog: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = React.useState('All');
   const blogPosts: BlogPost[] = [
     {
-      title: 'How to Write Winning Proposals',
-      excerpt: 'Learn the secrets to crafting proposals that convert and win more clients',
-      author: 'ProposalGen Team',
+      title: 'Winning More Freelance Projects',
+      excerpt: 'Learn proven strategies to create compelling proposals that win clients and grow your freelance business.',
+      author: 'Sarah Johnson',
       date: 'April 15, 2026',
       readTime: '5 min read',
       category: 'Strategy',
-      image: 'https://images.unsplash.com/photo-1556761175-767bd9b5c2a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MZqxtw&auto=format&fit=crop&w=800&q=80',
+      image: blogFreelanceImage,
       featured: true
     },
     {
-      title: 'Freelancer Pricing Guide',
-      excerpt: 'Discover how to price your services competitively and maximize your earnings',
-      author: 'ProposalGen Team',
+      title: 'Business Proposal Templates',
+      excerpt: 'Professional templates that help you create impressive business proposals in minutes.',
+      author: 'Michael Chen',
       date: 'April 12, 2026',
       readTime: '7 min read',
       category: 'Business',
-      image: 'https://images.unsplash.com/photo-1556740729-8e5c652a9de?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MZqxtw&auto=format&fit=crop&w=800&q=80'
+      image: blogBusinessImage
     },
     {
       title: 'Client Communication Tips',
-      excerpt: 'Master the art of client communication to build lasting relationships',
-      author: 'ProposalGen Team',
+      excerpt: 'Master the art of client communication to build lasting relationships and successful projects.',
+      author: 'Emily Davis',
       date: 'April 8, 2026',
       readTime: '4 min read',
       category: 'Communication',
-      image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MZqxtw&auto=format&fit=crop&w=800&q=80'
+      image: blogCommunicationImage
     },
     {
       title: 'AI Tools for Freelancers',
-      excerpt: 'Explore the best AI tools that can help streamline your freelance workflow',
-      author: 'ProposalGen Team',
+      excerpt: 'Discover how AI tools are revolutionizing the freelance industry and boosting productivity.',
+      author: 'Alex Rivera',
       date: 'April 5, 2026',
       readTime: '6 min read',
       category: 'Technology',
-      image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MZqxtw&auto=format&fit=crop&w=800&q=80'
+      image: blogTechnologyImage
     },
     {
       title: 'Building Your Portfolio',
-      excerpt: 'Create a compelling portfolio that showcases your best work and attracts clients',
-      author: 'ProposalGen Team',
+      excerpt: 'Create a stunning portfolio that showcases your best work and attracts high-paying clients.',
+      author: 'Jessica Martinez',
       date: 'April 1, 2026',
       readTime: '8 min read',
       category: 'Career',
-      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MZqxtw&auto=format&fit=crop&w=800&q=80'
+      image: blogDealImage
     },
     {
       title: 'Negotiation Strategies',
-      excerpt: 'Learn effective negotiation techniques to get better terms and rates',
-      author: 'ProposalGen Team',
+      excerpt: 'Learn effective negotiation techniques to secure better rates and terms for your freelance projects.',
+      author: 'David Kim',
       date: 'March 28, 2026',
       readTime: '5 min read',
       category: 'Business',
-      image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MZqxtw&auto=format&fit=crop&w=800&q=80'
+      image: blogBusinessImage
     }
   ];
 
@@ -140,7 +145,7 @@ const Blog: React.FC = () => {
                   </div>
                 </div>
                 <motion.button
-                  onClick={() => console.log(`Reading blog post: ${post.title}`)}
+                  onClick={() => window.open(`/blog?post=${encodeURIComponent(post.title.toLowerCase().replace(/\s+/g, '-'))}`, '_blank')}
                   className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-medium hover:from-indigo-700 hover:to-purple-700 transition-all duration-300"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -152,8 +157,9 @@ const Blog: React.FC = () => {
               <div className="relative h-64 lg:h-auto">
                 <img
                   src={post.image}
-                  alt={post.title}
+                  alt={`${post.title} - ${post.category} article illustration`}
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -199,8 +205,9 @@ const Blog: React.FC = () => {
               <div className="relative h-48">
                 <img
                   src={post.image}
-                  alt={post.title}
+                  alt={`${post.title} - ${post.category} article illustration`}
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
                 <div className="absolute top-4 left-4">
                   <span className="px-3 py-1 bg-slate-900/80 backdrop-blur-sm text-gray-300 text-xs font-medium rounded-full">
@@ -227,7 +234,7 @@ const Blog: React.FC = () => {
                   </div>
                 </div>
                 <motion.button
-                  onClick={() => console.log(`Reading blog post: ${post.title}`)}
+                  onClick={() => window.open(`/blog?post=${encodeURIComponent(post.title.toLowerCase().replace(/\s+/g, '-'))}`, '_blank')}
                   className="flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-colors font-medium"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -262,7 +269,7 @@ const Blog: React.FC = () => {
               className="flex-1 px-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 transition-colors"
             />
             <motion.button
-              onClick={() => console.log('Newsletter subscription requested')}
+              onClick={() => alert('Newsletter subscription feature coming soon!')}
               className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-medium hover:from-indigo-700 hover:to-purple-700 transition-all duration-300"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

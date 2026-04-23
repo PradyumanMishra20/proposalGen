@@ -221,10 +221,9 @@ const Guide: React.FC = () => {
                 {example.preview}
               </p>
               <motion.button
-                onClick={() => console.log(`Viewing example: ${example.title}`)}
+                onClick={() => window.open(`/guide?example=${encodeURIComponent(example.title.toLowerCase().replace(/\s+/g, '-'))}`, '_blank')}
                 className="flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-colors font-medium text-sm"
                 whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
               >
                 View Full Example
                 <ArrowRight className="w-4 h-4" />

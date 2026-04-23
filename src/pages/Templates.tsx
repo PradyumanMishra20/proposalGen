@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { FileText, Zap, Star, Users, TrendingUp } from 'lucide-react';
 
 interface Template {
@@ -12,6 +13,7 @@ interface Template {
 }
 
 const Templates: React.FC = () => {
+  const navigate = useNavigate();
   const templates: Template[] = [
     {
       title: 'Professional Services',
@@ -126,7 +128,7 @@ const Templates: React.FC = () => {
                 <motion.button
                   onClick={() => {
                     // Navigate to the proposal generator with this template
-                    window.location.href = '/?template=' + encodeURIComponent(template.title.toLowerCase().replace(/\s+/g, '-'));
+                    navigate('/?template=' + encodeURIComponent(template.title.toLowerCase().replace(/\s+/g, '-')));
                   }}
                   className={`
                     w-full py-3 sm:py-4 px-4 sm:px-6 rounded-lg font-medium transition-all duration-300 text-sm sm:text-base min-h-[2.75rem] sm:min-h-[3rem]
