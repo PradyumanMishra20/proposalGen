@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useProposalStore } from '../../store/proposalStore';
 import { useTheme } from '../../contexts/ThemeContext';
 import { generateAIProposal, GeneratedProposal } from '../../services/aiProposalService';
+import StepIndicator from '../ui/StepIndicator';
+import LoadingSpinner from '../ui/LoadingSpinner';
 
 // Lazy load heavy components
 const ProposalDisplay = lazy(() => import('../ui/ProposalDisplay'));
@@ -61,24 +63,27 @@ const getFieldClasses = (
   theme: Theme,
   disabled: any
 ): string => {
-  const baseClasses = 'premium-input w-full px-6 py-4 border-2 placeholder-gray-500 focus:outline-none focus:ring-2 transition-all duration-300 shadow-sm relative';
+  const baseClasses = 'premium-input w-full px-4 sm:px-6 py-3 sm:py-4 border-2 placeholder-gray-500 focus:outline-none focus:ring-2 transition-all duration-300 shadow-sm relative text-base sm:text-lg';
   const themeClasses = theme === 'dark'
     ? 'bg-slate-800/60 text-white placeholder-slate-400 backdrop-blur-sm'
     : 'bg-white/90 text-gray-900 placeholder-gray-400 backdrop-blur-sm';
   
   let stateClasses = '';
   if (hasError) {
-    stateClasses = 'border-red-500/60 focus:border-red-500 focus:ring-red-500/30 shadow-red-500/20 animate-pulse';
+    stateClasses = theme === 'dark' 
+      ? 'border-red-500/50 bg-red-500/10 text-red-400 placeholder-red-400 focus:ring-red-500/30' 
+      : 'border-red-500/50 bg-red-500/10 text-red-700 placeholder-red-400 focus:ring-red-500/30';
   } else if (isFocused) {
-    stateClasses = 'border-indigo-500/60 focus:border-indigo-500 focus:ring-indigo-500/30 shadow-indigo-500/20 transform scale-[1.01]';
+    stateClasses = theme === 'dark' 
+      ? 'border-primary-500/50 bg-primary-500/10 focus:ring-primary-500/30' 
+      : 'border-primary-500/50 bg-primary-500/10 focus:ring-primary-500/30';
   } else {
-    stateClasses = theme === 'dark'
-      ? 'border-slate-600/50 focus:border-indigo-500/60 hover:border-slate-500/60 hover:shadow-md hover:shadow-slate-900/20'
-      : 'border-gray-300/50 focus:border-indigo-500/60 hover:border-gray-400/60 hover:shadow-md hover:shadow-gray-900/15';
+    stateClasses = theme === 'dark' 
+      ? 'border-slate-600/50 bg-slate-800/60 focus:ring-slate-600/30' 
+      : 'border-gray-300/50 bg-white/90 focus:ring-gray-400/30';
   }
   
-  const isDisabled = disabled === true || disabled === 'true';
-  return `${baseClasses} ${themeClasses} ${stateClasses} ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'}`;
+  return `${baseClasses} ${themeClasses} ${stateClasses}`;
 };
 
 
@@ -176,6 +181,15 @@ const MainTool: React.FC = () => {
   const [focusedField, setFocusedField] = useState<ValidatableField | null>(null);
   const [generatedProposal, setGeneratedProposal] = useState<GeneratedProposal | null>(null);
   const [isGeneratingProposal, setIsGeneratingProposal] = useState(false);
+
+  // Calculate current step based on component state
+  const getCurrentStep = useCallback((): number => {
+    if (generatedProposal) return 3; // Review & Download step
+    if (isGeneratingProposal) return 2; // Generate Proposal step
+    return 1; // Enter Details step
+  }, [generatedProposal, isGeneratingProposal]);
+
+  const currentStep = getCurrentStep();
 
   // Validate single field
   const validateField = useCallback((fieldName: ValidatableField, value: string | number | boolean | undefined): string => {
@@ -297,9 +311,27 @@ const MainTool: React.FC = () => {
       }));
     } catch (error) {
       console.error('AI generation error:', error);
+      
+      // User-friendly error messages
+      let errorMessage = "Oops! Something went wrong. Let's try that again.";
+      
+      if (error instanceof Error) {
+        if (error.message.includes('API key')) {
+          errorMessage = "AI assistant is taking a quick break. Give it a moment and try again!";
+        } else if (error.message.includes('network') || error.message.includes('fetch')) {
+          errorMessage = "Looks like we're having connection trouble. Check your internet and give it another go.";
+        } else if (error.message.includes('timeout')) {
+          errorMessage = "The AI is thinking harder than usual. Let's try again in a moment.";
+        } else if (error.message.includes('rate limit')) {
+          errorMessage = "Whoa there! You're moving fast. Take a quick breather and try again.";
+        } else {
+          errorMessage = error.message || "Something unexpected happened. Let's give it another shot!";
+        }
+      }
+      
       setErrors(prev => ({ 
         ...prev, 
-        submit: error instanceof Error ? error.message : 'Failed to generate proposal. Please try again.' 
+        submit: errorMessage 
       }));
     } finally {
       setIsSubmitting(false);
@@ -509,13 +541,11 @@ const templates: Template[] = [
             theme === 'dark' ? 'bg-slate-900' : 'bg-gray-50'
           }`}>
             <div className="text-center">
-              <div className="w-16 h-16 mx-auto bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center mb-4">
-                <div className="w-8 h-8 bg-white rounded-full animate-pulse" />
-              </div>
-              <p className={`${
-                theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+              <LoadingSpinner size="xl" message="Generating your professional proposal..." variant="spinner" />
+              <p className={`mt-4 text-sm ${
+                theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
               }`}>
-                Loading proposal generator...
+                This usually takes 10-15 seconds
               </p>
             </div>
           </div>
@@ -531,14 +561,7 @@ const templates: Template[] = [
             theme === 'dark' ? 'bg-slate-900' : 'bg-gray-50'
           }`}>
             <div className="text-center">
-              <div className="w-16 h-16 mx-auto bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center mb-4">
-                <div className="w-8 h-8 bg-white rounded-full animate-pulse" />
-              </div>
-              <p className={`${
-                theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
-              }`}>
-                Loading proposal...
-              </p>
+              <LoadingSpinner size="lg" message="Loading your proposal..." variant="dots" />
             </div>
           </div>
         }>
@@ -548,11 +571,37 @@ const templates: Template[] = [
           />
         </Suspense>
       ) : (
-        <div className={`backdrop-blur-3xl rounded-3xl border shadow-2xl transition-all duration-700 max-w-7xl mx-auto ${
+        <div className={`backdrop-blur-3xl rounded-3xl border shadow-2xl transition-all duration-700 max-w-7xl mx-auto relative ${
           theme === 'dark'
             ? 'bg-slate-900/60 border-slate-700/30 shadow-slate-900/40 ring-1 ring-slate-700/20'
             : 'bg-white/95 border-gray-200/60 shadow-gray-900/10 ring-1 ring-gray-200/30'
         }`} id="tool">
+          {/* Loading overlay for form */}
+          <AnimatePresence>
+            {isSubmitting && (
+              <motion.div
+                className="absolute inset-0 bg-black/50 backdrop-blur-sm rounded-3xl z-50 flex items-center justify-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="text-center space-y-4">
+                  <LoadingSpinner 
+                    size="lg" 
+                    message="Generating your professional proposal..." 
+                    variant="spinner"
+                    showProgress={false}
+                  />
+                  <p className={`text-sm font-medium ${
+                    theme === 'dark' ? 'text-gray-200' : 'text-gray-700'
+                  }`}>
+                    Please wait while we create your proposal
+                  </p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
       {/* Header Section */}
       <motion.div
         className="px-6 sm:px-8 md:px-16 pt-8 sm:pt-12 md:pt-16 pb-12 sm:pb-16 md:pb-20 mb-6 sm:mb-8 border-b border-opacity-10 transition-colors duration-300"
@@ -560,6 +609,16 @@ const templates: Template[] = [
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
       >
+        {/* Step Indicator */}
+        <div className="mb-12">
+          <StepIndicator 
+            currentStep={currentStep}
+            size="md"
+            showLabels={true}
+            className="max-w-3xl mx-auto"
+          />
+        </div>
+
         <div className="flex items-center justify-between mb-8 sm:mb-12">
           <div className="flex items-center gap-6 sm:gap-8 md:gap-12">
             <div className="flex items-center gap-4 sm:gap-6">
@@ -607,16 +666,16 @@ const templates: Template[] = [
         </motion.div>
       </motion.div>
 
-      <form onSubmit={handleSubmit} className="px-6 sm:px-8 md:px-16 pb-12 sm:pb-16 md:pb-20 space-y-12 sm:space-y-16 md:space-y-20">
-        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 lg:gap-20">
+      <form onSubmit={handleSubmit} className="px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16 md:pb-20 space-y-12 sm:space-y-16 md:space-y-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 items-start">
           {/* Template Selection */}
           <motion.div
-            className="lg:col-span-1"
+            className="w-full"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
           >
-            <div className={`backdrop-blur-xl rounded-2xl border p-4 sm:p-6 md:p-8 transition-all duration-300 hover:shadow-xl ${
+            <div className={`backdrop-blur-xl rounded-2xl border p-4 sm:p-6 md:p-8 transition-all duration-300 hover:shadow-xl w-full ${
               theme === 'dark'
                 ? 'bg-slate-800/40 border-slate-700/30 hover:bg-slate-800/50 shadow-slate-900/30'
                 : 'bg-white/70 border-gray-200/50 hover:bg-white/85 shadow-gray-900/20'
@@ -677,12 +736,12 @@ const templates: Template[] = [
 
           {/* Form Fields */}
           <motion.div
-            className="lg:col-span-1"
+            className="w-full"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
           >
-            <div className={`backdrop-blur-xl rounded-2xl border p-6 sm:p-8 md:p-12 transition-all duration-300 hover:shadow-xl ${
+            <div className={`backdrop-blur-xl rounded-2xl border p-6 sm:p-8 md:p-12 transition-all duration-300 hover:shadow-xl w-full ${
               theme === 'dark'
                 ? 'bg-slate-800/40 border-slate-700/30 hover:bg-slate-800/50 shadow-slate-900/30'
                 : 'bg-white/85 border-gray-200/50 hover:bg-white/95 shadow-gray-900/20'
@@ -695,61 +754,61 @@ const templates: Template[] = [
               <div className="space-y-8 sm:space-y-10 md:space-y-12">
                 {renderField(
                   'description',
-                  'Project Description',
+                  'Tell us about your project',
                   'textarea',
-                  'Describe your project needs, goals, and requirements...'
+                  "What do you need help with? Be as detailed as you'd like..."
                 )}
 
                 {renderField(
                   'yourRole',
-                  'Your Role',
+                  "What's your expertise?",
                   'text',
-                  'e.g., Web Developer, Designer, Consultant...'
+                  "e.g., Web Developer, UI Designer, Marketing Consultant"
                 )}
 
                 {renderField(
                   'clientName',
-                  'Client Name',
+                  "Who's this for?",
                   'text',
-                  'Client or company name (optional)'
+                  "Client name or company (optional)"
                 )}
 
                 {renderField(
                   'clientType',
-                  'Client Type',
+                  "What type of client?",
                   'select',
-                  '',
+                  'Choose the best fit',
                   [
-                    { value: 'startup', label: 'Startup' },
-                    { value: 'business', label: 'Business' },
-                    { value: 'enterprise', label: 'Enterprise' },
-                    { value: 'individual', label: 'Individual' }
+                    { value: 'startup', label: '🚀 Startup' },
+                    { value: 'business', label: '🏢 Small Business' },
+                    { value: 'enterprise', label: '🏛️ Enterprise' },
+                    { value: 'individual', label: '👤 Individual' }
                   ]
                 )}
 
                 {renderField(
                   'experienceLevel',
-                  'Experience Level',
+                  "How experienced are you?",
                   'select',
-                  '',
+                  'Be honest - it helps us tailor the proposal',
                   [
-                    { value: 'junior', label: 'Junior (0-2 years)' },
-                    { value: 'intermediate', label: 'Intermediate (2-5 years)' },
-                    { value: 'senior', label: 'Senior (5-10 years)' },
-                    { value: 'expert', label: 'Expert (10+ years)' }
+                    { value: 'junior', label: '🌱 Just getting started (0-2 years)' },
+                    { value: 'intermediate', label: '🌿 Getting comfortable (2-5 years)' },
+                    { value: 'senior', label: '🌳 Pretty confident (5-10 years)' },
+                    { value: 'expert', label: '🌴 Been around the block (10+ years)' }
                   ]
                 )}
 
                 {renderField(
                   'deadlineSensitivity',
-                  'Timeline Priority',
+                  "When do you need this?",
                   'select',
-                  '',
+                  'No pressure - just helps us plan better',
                   [
-                    { value: 'low', label: 'Flexible' },
-                    { value: 'normal', label: 'Standard (2-4 weeks)' },
-                    { value: 'high', label: 'Urgent (1-2 weeks)' },
-                    { value: 'urgent', label: 'Critical (< 1 week)' }
+                    { value: 'low', label: '🕐 Whenever you get to it' },
+                    { value: 'normal', label: '📅 In the next few weeks' },
+                    { value: 'high', label: '⚡ Pretty soon (1-2 weeks)' },
+                    { value: 'urgent', label: '🔥 Yesterday! (Less than a week)' }
                   ]
                 )}
               </div>
@@ -765,31 +824,60 @@ const templates: Template[] = [
           transition={{ duration: 0.6, delay: 0.8, type: "spring" }}
         >
           <motion.div
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ scale: isSubmitting || isLoading ? 1 : 1.02 }}
+            whileTap={{ scale: isSubmitting || isLoading ? 1 : 0.98 }}
           >
             <button
               type="submit"
               disabled={!isFormValid() || isSubmitting || isLoading}
-              className="btn btn-primary btn-lg sm:btn-xl premium-button px-8 sm:px-12 md:px-16 lg:px-24 py-4 sm:py-6 md:py-8 text-base sm:text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 relative overflow-hidden group min-h-[3rem] sm:min-h-[3.5rem] md:min-h-[4rem]"
+              className="btn btn-primary btn-lg sm:btn-xl premium-button w-full sm:w-auto px-6 sm:px-12 md:px-16 lg:px-24 py-4 sm:py-5 md:py-6 text-base sm:text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 relative overflow-hidden group min-h-[3.5rem] sm:min-h-[3.5rem] md:min-h-[4rem] disabled:opacity-75 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
-              <motion.span
-                className="relative z-10"
-                animate={{ 
-                  opacity: isSubmitting || isLoading ? 0.8 : 1,
-                  scale: isSubmitting || isLoading ? 0.95 : 1
-                }}
-                transition={{ duration: 0.3 }}
-              >
-                {isSubmitting || isLoading ? 'Generating Proposal...' : 'Generate Proposal'}
-              </motion.span>
-              {/* Premium hover effect */}
+              <div className="relative z-10 flex items-center justify-center gap-3">
+                {isSubmitting || isLoading ? (
+                  <>
+                    <LoadingSpinner 
+                      size="sm" 
+                      variant="spinner" 
+                      className="opacity-100"
+                    />
+                    <motion.span
+                      animate={{ opacity: [0.5, 1, 0.5] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                      Creating your masterpiece...
+                    </motion.span>
+                  </>
+                ) : (
+                  <motion.span
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    Let's Create Your Proposal! 🚀
+                  </motion.span>
+                )}
+              </div>
+              
+              {/* Premium hover effect - disabled during loading */}
               <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none"
                 initial={{ x: "-100%" }}
-                whileHover={{ x: "100%" }}
+                whileHover={isSubmitting || isLoading ? {} : { x: "100%" }}
                 transition={{ duration: 0.6, ease: "easeInOut" }}
               />
+              
+              {/* Loading overlay effect */}
+              <AnimatePresence>
+                {(isSubmitting || isLoading) && (
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-primary-600/20 to-secondary-600/20 backdrop-blur-sm rounded-2xl"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                )}
+              </AnimatePresence>
             </button>
           </motion.div>
         </motion.div>

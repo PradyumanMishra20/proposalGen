@@ -28,6 +28,7 @@ const Careers = lazy(() => import('./pages/Careers'));
 const Features = lazy(() => import('./components/sections/Features'));
 const Demo = lazy(() => import('./components/sections/Demo'));
 const Pricing = lazy(() => import('./components/sections/Pricing'));
+const TrustSection = lazy(() => import('./components/sections/TrustSection'));
 const Testimonials = lazy(() => import('./components/sections/Testimonials'));
 const FinalCTA = lazy(() => import('./components/sections/FinalCTA'));
 
@@ -94,12 +95,37 @@ const Home = () => {
 
   return (
     <>
+      {/* Hero Section - Clean, focused */}
       <Hero scrollToTool={scrollToTool} navigate={navigate} />
 
-      <Suspense fallback={<LoadingFallback type="section" />}>
-        <MainTool />
-      </Suspense>
+      {/* Main Tool Section - Primary Focus */}
+      <section id="tool" className="py-20 lg:py-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Suspense fallback={<LoadingFallback type="section" />}>
+            <MainTool />
+          </Suspense>
+        </div>
+      </section>
 
+      {/* Trust Section - Secondary Support */}
+      <section className="py-16 lg:py-24">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Suspense fallback={<LoadingFallback type="section" />}>
+            <TrustSection />
+          </Suspense>
+        </div>
+      </section>
+
+      {/* Testimonials - Tertiary Support */}
+      <section className="py-16 lg:py-24">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Suspense fallback={<LoadingFallback type="section" />}>
+            <Testimonials />
+          </Suspense>
+        </div>
+      </section>
+
+      {/* Additional Sections */}
       <Suspense fallback={<LoadingFallback type="section" />}>
         <Features />
       </Suspense>
@@ -110,10 +136,6 @@ const Home = () => {
 
       <Suspense fallback={<LoadingFallback type="section" />}>
         <Pricing scrollToTool={scrollToTool} navigate={navigate} />
-      </Suspense>
-
-      <Suspense fallback={<LoadingFallback type="section" />}>
-        <Testimonials />
       </Suspense>
 
       <Suspense fallback={<LoadingFallback type="section" />}>

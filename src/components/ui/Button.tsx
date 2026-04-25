@@ -56,25 +56,25 @@ const Button: React.FC<ButtonProps> = ({
   'aria-expanded': ariaExpanded,
   'aria-pressed': ariaPressed
 }) => {
-  // Variant styles with enhanced gradients and modern effects
+  // Variant styles with premium design system
   const variantStyles: Record<ButtonVariant, string> = {
-    primary: 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white border-transparent hover:from-indigo-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300',
-    secondary: 'bg-gray-200 text-gray-900 border-gray-300 hover:bg-gray-300 shadow-md hover:shadow-lg transition-all duration-300',
-    outline: 'bg-transparent text-indigo-600 border-indigo-600 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-700 transition-all duration-300',
-    ghost: 'bg-transparent text-gray-700 border-transparent hover:bg-gray-100 hover:text-gray-900 transition-all duration-300',
-    danger: 'bg-red-600 text-white border-transparent hover:bg-red-700 hover:shadow-lg transition-all duration-300',
-    success: 'bg-green-600 text-white border-transparent hover:bg-green-700 hover:shadow-lg transition-all duration-300',
-    warning: 'bg-yellow-500 text-white border-transparent hover:bg-yellow-600 hover:shadow-lg transition-all duration-300',
-    gradient: 'bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 text-white border-transparent hover:from-purple-700 hover:via-pink-600 hover:to-orange-500 shadow-xl hover:shadow-2xl transition-all duration-300'
+    primary: 'bg-gradient-to-r from-primary-600 to-secondary-600 text-white border-transparent hover:from-primary-700 hover:to-secondary-700 shadow-primary hover:shadow-lg transition-all duration-250 transform hover:-translate-y-0.5 font-semibold',
+    secondary: 'bg-neutral-100 text-neutral-900 border-neutral-300 hover:bg-neutral-200 hover:border-neutral-400 shadow-sm hover:shadow-md transition-all duration-250 font-medium',
+    outline: 'bg-transparent text-primary-600 border-primary-300 hover:bg-primary-50 hover:text-primary-700 hover:border-primary-400 transition-all duration-250 font-medium',
+    ghost: 'bg-transparent text-neutral-700 border-transparent hover:bg-neutral-100 hover:text-neutral-900 transition-all duration-250 font-medium',
+    danger: 'bg-gradient-to-r from-error-600 to-error-700 text-white border-transparent hover:from-error-700 hover:to-error-800 shadow-error hover:shadow-lg transition-all duration-250 transform hover:-translate-y-0.5 font-semibold',
+    success: 'bg-gradient-to-r from-success-600 to-success-700 text-white border-transparent hover:from-success-700 hover:to-success-800 shadow-success hover:shadow-lg transition-all duration-250 transform hover:-translate-y-0.5 font-semibold',
+    warning: 'bg-gradient-to-r from-warning-500 to-warning-600 text-white border-transparent hover:from-warning-600 hover:to-warning-700 shadow-warning hover:shadow-lg transition-all duration-250 transform hover:-translate-y-0.5 font-semibold',
+    gradient: 'bg-gradient-to-r from-primary-600 via-secondary-500 to-accent-500 text-white border-transparent hover:from-primary-700 hover:via-secondary-600 hover:to-accent-600 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 font-bold'
   };
 
-  // Size styles
+  // Size styles with design system spacing
   const sizeStyles: Record<ButtonSize, string> = {
-    xs: 'px-2 py-1 text-xs',
-    sm: 'px-3 py-1.5 text-sm',
-    md: 'px-4 py-2 text-sm',
-    lg: 'px-6 py-3 text-base',
-    xl: 'px-8 py-4 text-lg'
+    xs: 'px-3 py-1.5 text-xs rounded-md',
+    sm: 'px-4 py-2 text-sm rounded-lg',
+    md: 'px-6 py-2.5 text-sm rounded-lg',
+    lg: 'px-8 py-3 text-base rounded-xl',
+    xl: 'px-10 py-4 text-lg rounded-2xl'
   };
 
   // Icon size styles
@@ -86,29 +86,29 @@ const Button: React.FC<ButtonProps> = ({
     xl: 'w-6 h-6'
   };
 
-  // Base styles
+  // Base styles with premium design system
   const baseStyles = `
     relative inline-flex items-center justify-center
-    font-medium rounded-lg border
-    transition-all duration-200
+    font-primary border-2
+    transition-all duration-250 ease-out
     focus:outline-none focus:ring-2 focus:ring-offset-2
-    disabled:opacity-50 disabled:cursor-not-allowed
+    disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
     ${variantStyles[variant]}
     ${sizeStyles[size]}
     ${fullWidth ? 'w-full' : ''}
     ${className}
   `;
 
-  // Focus ring styles based on variant
+  // Focus ring styles based on variant with design system colors
   const focusRingStyles: Record<ButtonVariant, string> = {
-    primary: 'focus:ring-indigo-500',
-    secondary: 'focus:ring-gray-500',
-    outline: 'focus:ring-indigo-500',
-    ghost: 'focus:ring-gray-500',
-    danger: 'focus:ring-red-500',
-    success: 'focus:ring-green-500',
-    warning: 'focus:ring-yellow-500',
-    gradient: 'focus:ring-indigo-500'
+    primary: 'focus:ring-primary-500',
+    secondary: 'focus:ring-neutral-500',
+    outline: 'focus:ring-primary-500',
+    ghost: 'focus:ring-neutral-500',
+    danger: 'focus:ring-error-500',
+    success: 'focus:ring-success-500',
+    warning: 'focus:ring-warning-500',
+    gradient: 'focus:ring-primary-500'
   };
 
   const combinedStyles = `${baseStyles} ${focusRingStyles[variant]}`;

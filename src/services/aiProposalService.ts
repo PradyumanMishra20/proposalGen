@@ -79,110 +79,157 @@ const formatSectionTitle = (section: string): string => {
     .join(' ');
 };
 
+const getSectionGuidance = (section: string, template: any): string => {
+  const guidance: Record<string, string> = {
+    'executive_summary': 'Start with a compelling hook that shows you understand their problem. Briefly introduce your solution and highlight the key benefits.',
+    'project_scope': 'Detail exactly what will be delivered. Include specific features, functionalities, and deliverables. Use clear, measurable criteria.',
+    'technical_approach': 'Explain your methodology and technologies. Show why your approach is superior and how it ensures success.',
+    'strategy': 'Outline your strategic approach. Include market analysis, target audience considerations, and competitive advantages.',
+    'campaign_details': 'Provide specific campaign tactics, channels, and execution timeline. Include metrics for success.',
+    'analysis': 'Present your findings and insights. Use data to support your recommendations.',
+    'recommendations': 'Provide actionable recommendations with expected outcomes and implementation steps.',
+    'implementation': 'Detail the implementation plan with phases, milestones, and resource requirements.',
+    'deliverables': 'List all deliverables with specifications and acceptance criteria.',
+    'timeline': 'Provide a realistic timeline with key milestones, dependencies, and buffer time.',
+    'pricing': 'Present pricing options with clear value proposition. Include payment terms and what is included.',
+    'budget': 'Break down the budget allocation with justification for each major expense category.',
+    'metrics': 'Define KPIs and success metrics. Include reporting frequency and measurement methods.',
+    'next_steps': 'Outline the immediate next steps, decision points, and timeline for moving forward.'
+  };
+  
+  return guidance[section] || 'Provide comprehensive information for this section with specific details and actionable insights.';
+};
+
 const generateMockSectionContent = (section: string, data: ProposalData, template: any): string => {
   const { description, clientType, experienceLevel, deadlineSensitivity } = data;
   
   switch (section) {
     case 'executive_summary':
-      return `Executive Summary
+      return `## Executive Summary
 
-Hi, I can help you build a fully responsive and modern website for your clothing brand with secure payment integration. I will ensure clean UI/UX, fast performance, and a scalable structure. Based on your requirements, I will design a user-friendly interface and integrate payment gateways like Stripe or Razorpay. I aim to deliver a high-quality product that enhances your brand presence and drives conversions. Let's discuss your exact vision and get started.`;
+I'm excited to present a comprehensive solution for your ${data.clientType || 'business'} needs. Based on your requirements for "${data.description || 'your project'}", I've developed a strategic approach that combines cutting-edge technology with proven methodologies.
+
+**Key Highlights:**
+- **Professional Expertise**: ${data.experienceLevel || 'Extensive'} experience delivering successful projects
+- **Client-Focused Approach**: Tailored solutions that address your specific challenges
+- **Quality Assurance**: Commitment to excellence and attention to detail
+- **Timely Delivery**: ${deadlineSensitivity === 'urgent' ? 'Accelerated timeline with dedicated resources' : 'Efficient project management with realistic milestones'}
+
+This proposal outlines a clear roadmap to achieve your objectives while maintaining the highest standards of quality and professionalism. Let's explore how we can transform your vision into reality.`;
 
     case 'project_scope':
-      return `Project Scope
+      return `## Project Scope
 
 Based on your requirements: "${description || 'Project description not provided'}"
 
 Our comprehensive project scope includes:
 
-1. **Discovery Phase**
-   - Detailed requirements analysis
-   - Stakeholder consultations
-   - Technical assessment
-   - Risk evaluation
+### 1. **Discovery & Analysis Phase**
+- **Requirements Gathering**: In-depth analysis of your business objectives
+- **Stakeholder Interviews**: Understanding key decision-maker needs
+- **Technical Assessment**: Evaluating current infrastructure and requirements
+- **Risk Analysis**: Identifying potential challenges and mitigation strategies
 
-2. **Design & Planning**
-   - Concept development
-   - Prototyping and wireframing
-   - Technical architecture
-   - Quality assurance planning
+### 2. **Strategic Planning & Design**
+- **Concept Development**: Creating tailored solutions for your specific needs
+- **Prototyping**: Interactive mockups and user experience design
+- **Technical Architecture**: Scalable and maintainable system design
+- **Quality Framework**: Comprehensive testing and validation plan
 
-3. **Implementation**
-   - Development sprints
-   - Regular progress reviews
-   - Testing and validation
-   - Documentation
+### 3. **Implementation & Development**
+- **Agile Development**: Iterative sprints with regular deliverables
+- **Progress Reviews**: Weekly status meetings and milestone tracking
+- **Quality Assurance**: Continuous testing and code reviews
+- **Documentation**: Comprehensive technical and user documentation
 
-4. **Delivery & Launch**
-   - Final testing and QA
-   - Deployment and setup
-   - Training and handover
-   - Post-launch support
+### 4. **Delivery & Success**
+- **Final Testing**: Comprehensive QA and user acceptance testing
+- **Deployment**: Smooth transition to production environment
+- **Training**: Team training and knowledge transfer
+- **Ongoing Support**: Post-launch maintenance and optimization
 
-The scope is designed to be flexible and can be adjusted based on evolving requirements while maintaining the core objectives and timeline.`;
+*The scope is designed to be flexible and can be adjusted based on evolving requirements while maintaining the core objectives and timeline.*`;
 
     case 'timeline':
-      return `Project Timeline
+      return `## Project Timeline
 
 We propose the following timeline for completion:
 
-**Phase 1: Discovery & Planning (Week 1-2)**
-- Requirements gathering and analysis
-- Technical assessment and planning
-- Design concept development
+### **Phase 1: Discovery & Planning (Week 1-2)**
+- ✅ Requirements gathering and analysis
+- ✅ Technical assessment and planning
+- ✅ Design concept development
+- ✅ Risk assessment and mitigation planning
 
-**Phase 2: Development (Week 3-6)**
-- Core implementation
-- Regular progress reviews
-- Iterative feedback and adjustments
+### **Phase 2: Development & Implementation (Week 3-6)**
+- ✅ Core development and feature implementation
+- ✅ Regular progress reviews and feedback sessions
+- ✅ Iterative improvements based on your input
+- ✅ Integration testing and quality assurance
 
-**Phase 3: Testing & Refinement (Week 7-8)**
-- Comprehensive testing
-- User acceptance testing
-- Final refinements and optimizations
+### **Phase 3: Testing & Refinement (Week 7-8)**
+- ✅ Comprehensive testing and quality assurance
+- ✅ User acceptance testing and feedback incorporation
+- ✅ Performance optimization and final refinements
+- ✅ Documentation and training materials preparation
 
-**Phase 4: Delivery & Launch (Week 9)**
-- Final delivery
-- Deployment and setup
-- Training and documentation
+### **Phase 4: Delivery & Launch (Week 9)**
+- ✅ Final delivery and deployment
+- ✅ Team training and knowledge transfer
+- ✅ Post-launch support and monitoring setup
+- ✅ Project closure and success metrics review
 
-${deadlineSensitivity === 'urgent' ? 'Given the urgent timeline requirement, we have optimized our process to deliver this project in an accelerated timeframe while maintaining quality standards.' : 'This timeline allows for thorough development and testing to ensure the highest quality deliverables.'}
+${deadlineSensitivity === 'urgent' ? '🚀 **Priority Timeline**: Given the urgent timeline requirement, we have optimized our process to deliver this project in an accelerated timeframe while maintaining our high-quality standards. Additional resources will be allocated to ensure timely completion.' : '⏱️ **Standard Timeline**: This timeline allows for thorough development and testing to ensure the highest quality deliverables while maintaining realistic expectations.'}
 
-We will provide weekly progress reports and maintain open communication throughout the project.`;
+**Communication & Reporting:**
+- Weekly progress reports every Friday
+- Bi-weekly stakeholder meetings
+- Real-time access to project dashboard
+- 24/7 communication channel for urgent matters`;
 
     case 'pricing':
-      return `Investment & Pricing
+      return `## Investment & Pricing
 
 We offer a transparent pricing structure based on the scope and complexity of this project:
 
-**Professional Package: $5,000 - $8,000**
-- Complete project execution
-- All deliverables as specified
-- Standard revision rounds
-- Basic support (30 days)
+### 💼 **Professional Package: $5,000 - $8,000**
+- ✅ Complete project execution
+- ✅ All deliverables as specified
+- ✅ Standard revision rounds (2 rounds)
+- ✅ Basic support (30 days post-launch)
+- ✅ Project documentation
+- ✅ Source code delivery
 
-**Premium Package: $8,000 - $12,000**
-- Everything in Professional Package
-- Additional revision rounds
-- Priority support (90 days)
-- Extended warranty period
-- Advanced analytics and reporting
+### 🚀 **Premium Package: $8,000 - $12,000**
+- ✅ Everything in Professional Package
+- ✅ Additional revision rounds (4 rounds total)
+- ✅ Priority support (90 days post-launch)
+- ✅ Extended warranty period (1 year)
+- ✅ Advanced analytics and reporting
+- ✅ Performance optimization
+- ✅ SEO optimization (if applicable)
 
-**Enterprise Package: $12,000+**
-- Custom solution development
-- Dedicated project manager
-- Unlimited revisions
-- Lifetime support
-- Training and documentation
-- Source code ownership
+### 🏢 **Enterprise Package: $12,000+**
+- ✅ Custom solution development
+- ✅ Dedicated project manager
+- ✅ Unlimited revisions
+- ✅ Lifetime support and maintenance
+- ✅ Comprehensive training program
+- ✅ Complete documentation suite
+- ✅ Source code ownership
+- ✅ Custom integrations
+- ✅ Scalability planning
 
-**Payment Terms:**
-- 30% deposit to begin work
-- 40% upon milestone completion
-- 30% on final delivery
+### 💳 **Flexible Payment Terms**
+- **30% deposit** to begin work
+- **40% payment** upon milestone completion
+- **30% final payment** on successful delivery
+- **Multiple payment options** available (Wire transfer, ACH, Credit Card)
 
-**Value Proposition:**
-Our pricing reflects the quality of work, expertise, and value we bring to your project. We offer competitive rates while maintaining the highest standards of professionalism and deliverable quality.`;
+### 🎯 **Value Proposition**
+> *Our pricing reflects the exceptional quality, expertise, and value we bring to your project. We offer competitive rates while maintaining the highest standards of professionalism and deliverable quality.*
+
+**ROI Guarantee**: We're confident in our ability to deliver results that exceed your investment. All packages include a satisfaction guarantee.`;
 
     default:
       return `${formatSectionTitle(section)}
@@ -213,34 +260,59 @@ const generateOpenAIProposal = async (template: string, data: ProposalData): Pro
 
   const templateConfig = TEMPLATES[template as keyof typeof TEMPLATES];
   
-  const prompt = `Generate a professional ${templateConfig.name.toLowerCase()} for a client with the following details:
+  const prompt = `You are an expert proposal writer with 15+ years of experience creating winning business proposals for Fortune 500 companies and startups. Your proposals consistently achieve 85%+ win rates.
 
-Client Information:
-- Client Name: ${data.clientName || 'Not specified'}
-- Client Type: ${data.clientType || 'Not specified'}
-- Project Description: ${data.description || 'Not specified'}
-- Your Role: ${data.yourRole || 'Not specified'}
-- Experience Level: ${data.experienceLevel || 'Not specified'}
-- Deadline Sensitivity: ${data.deadlineSensitivity || 'Not specified'}
+Generate a comprehensive, client-ready ${templateConfig.name.toLowerCase()} that will impress the client and secure the project.
 
-Requirements:
-1. Generate a comprehensive proposal with the following sections: ${templateConfig.sections.join(', ')}
-2. Use a ${templateConfig.tone} tone
+CLIENT CONTEXT:
+- Client Name: ${data.clientName || 'Client Company'}
+- Client Type: ${data.clientType || 'Business'}
+- Project Description: ${data.description || 'Project requirements'}
+- Your Role/Expertise: ${data.yourRole || 'Service Provider'}
+- Experience Level: ${data.experienceLevel || 'Professional'}
+- Deadline Sensitivity: ${data.deadlineSensitivity || 'Normal'}
+
+PROPOSAL REQUIREMENTS:
+1. Create a compelling narrative that addresses the client's specific needs and pain points
+2. Use a ${templateConfig.tone} tone that builds trust and credibility
 3. Focus on: ${templateConfig.focus}
-4. Make it professional, detailed, and persuasive
-5. Include specific details based on the provided information
-6. Format each section clearly with proper headings
-7. Total proposal should be 800-1200 words
+4. Include quantifiable benefits and ROI where applicable
+5. Address potential concerns proactively
+6. Create urgency without being pushy
+7. Demonstrate deep understanding of their industry/business
+
+REQUIRED SECTIONS (in this order):
+${templateConfig.sections.map((section, index) => 
+  `${index + 1}. ${formatSectionTitle(section)} - ${getSectionGuidance(section, templateConfig)}`
+).join('\n')}
+
+CONTENT GUIDELINES:
+- Each section should be 150-300 words for optimal readability
+- Use professional business language with clear, concise sentences
+- Include specific examples and case studies where relevant
+- Add bullet points for key deliverables and milestones
+- Incorporate industry-specific terminology appropriately
+- Ensure logical flow between sections
+- End with a strong call-to-action
+
+FORMATTING REQUIREMENTS:
+- Use markdown formatting for headers (##, ###)
+- Use bullet points for lists
+- Use **bold** for emphasis on key points
+- Use *italics* for subtle emphasis
+- Ensure professional, clean formatting
 
 Please return the response as a JSON object with this structure:
 {
   "sections": [
     {
       "title": "Section Title",
-      "content": "Section content..."
+      "content": "Formatted markdown content..."
     }
   ]
-}`;
+}
+
+IMPORTANT: This proposal must be client-ready and professional enough to send directly to a potential client without modifications.`;
 
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
