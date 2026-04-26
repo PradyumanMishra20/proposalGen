@@ -160,7 +160,7 @@ const ProposalDisplay: React.FC<ProposalDisplayProps> = ({
 
   if (isLoading) {
     return (
-      <div className={`min-h-screen flex items-center justify-center p-8 ${
+      <div className={`flex items-center justify-center p-8 min-h-[50vh] ${
         theme === 'dark' ? 'bg-slate-900' : 'bg-gray-50'
       }`}>
         <motion.div
@@ -199,7 +199,7 @@ const ProposalDisplay: React.FC<ProposalDisplayProps> = ({
   }
 
   return (
-    <div className={`min-h-screen ${
+    <div className={`${
       theme === 'dark' ? 'bg-slate-900' : 'bg-gray-50'
     }`}>
       {/* Professional Document Header */}
@@ -346,15 +346,13 @@ const ProposalDisplay: React.FC<ProposalDisplayProps> = ({
           </div>
 
           {/* Content Area */}
-          <div className="w-full">
-            <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-14">
+            <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-6 sm:space-y-8">
               {sections.map((section, index) => (
                 <motion.section
                   key={section.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="space-y-6"
                 >
                   {/* Section Header */}
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-4 border-b border-gray-200 dark:border-slate-700">
@@ -385,7 +383,7 @@ const ProposalDisplay: React.FC<ProposalDisplayProps> = ({
                   </div>
                   
                   {/* Section Content */}
-                  <div className={`prose prose-sm sm:prose-base lg:prose-lg max-w-none leading-relaxed tracking-normal ${
+                  <div className={`prose prose-sm sm:prose-base max-w-none leading-relaxed tracking-normal ${
                     theme === 'dark' 
                       ? 'prose-headings:text-gray-100 prose-p:text-gray-300 prose-strong:text-gray-100 prose-ul:text-gray-300 prose-ol:text-gray-300 prose-li:text-gray-300 prose-blockquote:text-gray-400 prose-code:text-primary-600'
                       : 'prose-headings:text-gray-900 prose-p:text-gray-700 prose-strong:text-gray-900 prose-ul:text-gray-700 prose-ol:text-gray-700 prose-li:text-gray-700 prose-blockquote:text-gray-600 prose-code:text-primary-600'
@@ -394,17 +392,17 @@ const ProposalDisplay: React.FC<ProposalDisplayProps> = ({
                       remarkPlugins={[remarkGfm]}
                       components={{
                         h1: ({ children }: any) => (
-                          <h1 className="text-3xl font-bold mb-6 text-primary-600 dark:text-primary-400 border-b-2 border-primary-200 dark:border-primary-800 pb-2">
+                          <h1 className="text-3xl font-bold mb-4 text-primary-600 dark:text-primary-400 border-b-2 border-primary-200 dark:border-primary-800 pb-2">
                             {children}
                           </h1>
                         ),
                         h2: ({ children }: any) => (
-                          <h2 className="text-2xl font-bold mb-4 mt-8 text-primary-700 dark:text-primary-300 border-b border-primary-200 dark:border-primary-800 pb-1">
+                          <h2 className="text-2xl font-bold mb-2 mt-4 text-primary-700 dark:text-primary-300 border-b border-primary-200 dark:border-primary-800 pb-1">
                             {children}
                           </h2>
                         ),
                         h3: ({ children }: any) => (
-                          <h3 className="text-xl font-semibold mb-3 mt-6 text-primary-800 dark:text-primary-200">
+                          <h3 className="text-xl font-semibold mb-2 mt-3 text-primary-800 dark:text-primary-200">
                             {children}
                           </h3>
                         ),
@@ -414,7 +412,7 @@ const ProposalDisplay: React.FC<ProposalDisplayProps> = ({
                           </h4>
                         ),
                         p: ({ children }: any) => (
-                          <p className="mb-4 leading-relaxed text-base">
+                          <p className="mb-3 leading-relaxed text-base">
                             {children}
                           </p>
                         ),
@@ -444,20 +442,17 @@ const ProposalDisplay: React.FC<ProposalDisplayProps> = ({
                           </em>
                         ),
                         blockquote: ({ children }: any) => (
-                          <blockquote className="border-l-4 border-primary-500 pl-6 py-4 my-6 bg-primary-50 dark:bg-primary-900/20 rounded-r-lg italic">
+                          <blockquote className="my-4 border-l-4 border-primary-500 pl-6 py-4 bg-primary-50 dark:bg-primary-900/20 rounded-r-lg italic">
                             {children}
                           </blockquote>
                         ),
                         code: ({ inline, children, ...props }: any) => {
                           return inline ? (
-                            <code
-                              className="bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 px-2 py-1 rounded text-sm font-mono"
-                              {...props}
-                            >
+                            <code className="bg-primary-100 dark:bg-primary-900 px-2 py-1 rounded text-primary-600 dark:text-primary-400 text-sm font-mono" {...props}>
                               {children}
                             </code>
                           ) : (
-                            <pre className="bg-gray-100 dark:bg-slate-800 p-4 rounded-lg overflow-x-auto border border-gray-200 dark:border-slate-700">
+                            <pre className="bg-gray-100 dark:bg-slate-800 p-4 rounded-lg overflow-x-auto">
                               <code className="text-sm font-mono text-gray-800 dark:text-gray-200">
                                 {children}
                               </code>
@@ -465,7 +460,7 @@ const ProposalDisplay: React.FC<ProposalDisplayProps> = ({
                           );
                         },
                         hr: () => (
-                          <hr className="my-8 border-gray-200 dark:border-slate-700" />
+                          <hr className="my-6 border-gray-200 dark:border-slate-700" />
                         )
                       }}
                     >
@@ -475,7 +470,6 @@ const ProposalDisplay: React.FC<ProposalDisplayProps> = ({
                 </motion.section>
               ))}
             </div>
-          </div>
         </div>
       </div>
 
@@ -509,7 +503,7 @@ const ProposalDisplay: React.FC<ProposalDisplayProps> = ({
           </div>
 
           {/* Full Content - No Scroll Restrictions */}
-          <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-14">
+          <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-6 sm:space-y-8">
             {sections.map((section, index) => (
               <div key={section.id} className="space-y-6">
                 {/* Section Header */}
@@ -522,7 +516,7 @@ const ProposalDisplay: React.FC<ProposalDisplayProps> = ({
                 </div>
                 
                 {/* Section Content */}
-                <div className={`prose prose-sm sm:prose-base lg:prose-lg max-w-none leading-relaxed tracking-normal ${
+                <div className={`prose prose-sm sm:prose-base max-w-none leading-relaxed tracking-normal ${
                   theme === 'dark' 
                     ? 'prose-headings:text-gray-100 prose-p:text-gray-300 prose-strong:text-gray-100 prose-ul:text-gray-300 prose-ol:text-gray-300 prose-li:text-gray-300 prose-blockquote:text-gray-400 prose-code:text-primary-600'
                     : 'prose-headings:text-gray-900 prose-p:text-gray-700 prose-strong:text-gray-900 prose-ul:text-gray-700 prose-ol:text-gray-700 prose-li:text-gray-700 prose-blockquote:text-gray-600 prose-code:text-primary-600'

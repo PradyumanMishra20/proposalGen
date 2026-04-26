@@ -391,15 +391,15 @@ const templates: Template[] = [
     
     return (
       <motion.div
-        className="space-y-4"
+        className="space-y-3"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, type: "spring" }}
       >
         <label 
           htmlFor={fieldId}
-          className={`block text-subtitle font-semibold tracking-wide mb-4 ${
-            theme === 'dark' ? 'text-slate-200' : 'text-gray-700'
+          className={`block text-base font-semibold mb-2 ${
+            theme === 'dark' ? 'text-gray-100' : 'text-gray-800'
           } transition-colors duration-200`}
         >
           {label} {validationRules[fieldName]?.required && (
@@ -427,7 +427,7 @@ const templates: Template[] = [
               }}
               // @ts-ignore
               className={getFieldClasses(hasError, isFocused, theme, isLoading as any)}
-              rows={4}
+              rows={5}
               disabled={isLoading}
             />
             <AnimatePresence>
@@ -537,7 +537,7 @@ const templates: Template[] = [
       {/* Show proposal display when generated */}
       {isGeneratingProposal ? (
         <Suspense fallback={
-          <div className={`min-h-screen flex items-center justify-center p-8 ${
+          <div className={`flex items-center justify-center p-8 min-h-[50vh] ${
             theme === 'dark' ? 'bg-slate-900' : 'bg-gray-50'
           }`}>
             <div className="text-center">
@@ -557,7 +557,7 @@ const templates: Template[] = [
         </Suspense>
       ) : generatedProposal ? (
         <Suspense fallback={
-          <div className={`min-h-screen flex items-center justify-center p-8 ${
+          <div className={`flex items-center justify-center p-8 min-h-[50vh] ${
             theme === 'dark' ? 'bg-slate-900' : 'bg-gray-50'
           }`}>
             <div className="text-center">
@@ -604,13 +604,13 @@ const templates: Template[] = [
           </AnimatePresence>
       {/* Header Section */}
       <motion.div
-        className="px-6 sm:px-8 md:px-16 pt-8 sm:pt-12 md:pt-16 pb-12 sm:pb-16 md:pb-20 mb-6 sm:mb-8 border-b border-opacity-10 transition-colors duration-300"
+        className="px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 md:pt-12 pb-8 sm:pb-12 md:pb-16 mb-4 sm:mb-6 border-b border-opacity-10 transition-colors duration-300"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
       >
         {/* Step Indicator */}
-        <div className="mb-12">
+        <div className="mb-8">
           <StepIndicator 
             currentStep={currentStep}
             size="md"
@@ -619,7 +619,7 @@ const templates: Template[] = [
           />
         </div>
 
-        <div className="flex items-center justify-between mb-8 sm:mb-12">
+        <div className="flex items-center justify-between mb-6 sm:mb-8">
           <div className="flex items-center gap-6 sm:gap-8 md:gap-12">
             <div className="flex items-center gap-4 sm:gap-6">
               <motion.div
@@ -666,32 +666,31 @@ const templates: Template[] = [
         </motion.div>
       </motion.div>
 
-      <form onSubmit={handleSubmit} className="px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16 md:pb-20 space-y-12 sm:space-y-16 md:space-y-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 items-start">
+      <form onSubmit={handleSubmit} className="px-4 sm:px-6 lg:px-8 pb-8 sm:pb-12 md:pb-16 space-y-8 sm:space-y-12 md:space-y-16">
           {/* Template Selection */}
           <motion.div
-            className="w-full"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
+            className="w-full max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
           >
-            <div className={`backdrop-blur-xl rounded-2xl border p-4 sm:p-6 md:p-8 transition-all duration-300 hover:shadow-xl w-full ${
+            <div className={`backdrop-blur-xl rounded-xl sm:rounded-2xl border p-3 sm:p-4 md:p-6 lg:p-8 transition-all duration-300 hover:shadow-xl hover:scale-[1.01] w-full ${
               theme === 'dark'
-                ? 'bg-slate-800/40 border-slate-700/30 hover:bg-slate-800/50 shadow-slate-900/30'
-                : 'bg-white/70 border-gray-200/50 hover:bg-white/85 shadow-gray-900/20'
+                ? 'bg-slate-800/40 border-slate-700/30 hover:bg-slate-800/50 hover:border-slate-600/40 shadow-slate-900/30'
+                : 'bg-white/70 border-gray-200/50 hover:bg-white/85 hover:border-gray-300/60 shadow-gray-900/20'
             }`}>
-              <h3 className={`text-lg sm:text-xl md:text-title mb-4 sm:mb-6 md:mb-8 font-semibold ${
+              <h3 className={`text-lg sm:text-xl md:text-2xl mb-4 sm:mb-6 md:mb-8 font-black ${
                 theme === 'dark' ? 'text-white' : 'text-gray-900'
               }`}>
                 Choose Template
               </h3>
-              <div className="space-y-3 sm:space-y-4">
+              <div className="space-y-2 sm:space-y-3 md:space-y-4">
                 {templates.map((template) => (
                   <motion.button
                     key={template.id}
                     type="button"
                     onClick={() => setSelectedTemplate(template.id)}
-                    className={`btn btn-ghost w-full text-left p-4 sm:p-6 premium-card relative overflow-hidden transition-all duration-300 ${
+                    className={`btn btn-ghost w-full text-left p-3 sm:p-4 md:p-6 premium-card relative overflow-hidden transition-all duration-300 ${
                       selectedTemplate === template.id
                         ? theme === 'dark'
                           ? 'border-indigo-500 bg-indigo-500/20 shadow-xl shadow-indigo-500/25'
@@ -734,94 +733,47 @@ const templates: Template[] = [
             </div>
           </motion.div>
 
-          {/* Form Fields */}
+          {/* Project Details */}
           <motion.div
-            className="w-full"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="w-full max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
           >
-            <div className={`backdrop-blur-xl rounded-2xl border p-6 sm:p-8 md:p-12 transition-all duration-300 hover:shadow-xl w-full ${
+            <div className={`backdrop-blur-xl rounded-xl sm:rounded-2xl border p-4 sm:p-6 md:p-8 lg:p-12 transition-all duration-300 hover:shadow-xl hover:scale-[1.01] w-full ${
               theme === 'dark'
-                ? 'bg-slate-800/40 border-slate-700/30 hover:bg-slate-800/50 shadow-slate-900/30'
-                : 'bg-white/85 border-gray-200/50 hover:bg-white/95 shadow-gray-900/20'
+                ? 'bg-slate-800/40 border-slate-700/30 hover:bg-slate-800/50 hover:border-slate-600/40 shadow-slate-900/30'
+                : 'bg-white/85 border-gray-200/50 hover:bg-white/95 hover:border-gray-300/60 shadow-gray-900/20'
             }`}>
-              <h3 className={`text-lg sm:text-xl md:text-title mb-8 sm:mb-10 md:mb-12 font-semibold ${
+              <h3 className={`text-lg sm:text-xl md:text-2xl mb-4 sm:mb-6 md:mb-8 lg:mb-10 font-black ${
                 theme === 'dark' ? 'text-white' : 'text-gray-900'
               }`}>
                 Project Details
               </h3>
-              <div className="space-y-8 sm:space-y-10 md:space-y-12">
+              <div className="space-y-6">
                 {renderField(
                   'description',
-                  'Tell us about your project',
+                  'What do you need help with?',
                   'textarea',
-                  "What do you need help with? Be as detailed as you'd like..."
+                  "Describe your project in a few sentences..."
                 )}
 
                 {renderField(
                   'yourRole',
-                  "What's your expertise?",
+                  'Your expertise',
                   'text',
                   "e.g., Web Developer, UI Designer, Marketing Consultant"
-                )}
-
-                {renderField(
-                  'clientName',
-                  "Who's this for?",
-                  'text',
-                  "Client name or company (optional)"
-                )}
-
-                {renderField(
-                  'clientType',
-                  "What type of client?",
-                  'select',
-                  'Choose the best fit',
-                  [
-                    { value: 'startup', label: '🚀 Startup' },
-                    { value: 'business', label: '🏢 Small Business' },
-                    { value: 'enterprise', label: '🏛️ Enterprise' },
-                    { value: 'individual', label: '👤 Individual' }
-                  ]
-                )}
-
-                {renderField(
-                  'experienceLevel',
-                  "How experienced are you?",
-                  'select',
-                  'Be honest - it helps us tailor the proposal',
-                  [
-                    { value: 'junior', label: '🌱 Just getting started (0-2 years)' },
-                    { value: 'intermediate', label: '🌿 Getting comfortable (2-5 years)' },
-                    { value: 'senior', label: '🌳 Pretty confident (5-10 years)' },
-                    { value: 'expert', label: '🌴 Been around the block (10+ years)' }
-                  ]
-                )}
-
-                {renderField(
-                  'deadlineSensitivity',
-                  "When do you need this?",
-                  'select',
-                  'No pressure - just helps us plan better',
-                  [
-                    { value: 'low', label: '🕐 Whenever you get to it' },
-                    { value: 'normal', label: '📅 In the next few weeks' },
-                    { value: 'high', label: '⚡ Pretty soon (1-2 weeks)' },
-                    { value: 'urgent', label: '🔥 Yesterday! (Less than a week)' }
-                  ]
                 )}
               </div>
             </div>
           </motion.div>
-        </div>
 
         {/* Submit Button */}
         <motion.div
           className="flex justify-center pt-8 sm:pt-12 md:pt-16"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8, type: "spring" }}
+          transition={{ duration: 0.6, delay: 0.4, type: "spring" }}
         >
           <motion.div
             whileHover={{ scale: isSubmitting || isLoading ? 1 : 1.02 }}
@@ -830,7 +782,7 @@ const templates: Template[] = [
             <button
               type="submit"
               disabled={!isFormValid() || isSubmitting || isLoading}
-              className="btn btn-primary btn-lg sm:btn-xl premium-button w-full sm:w-auto px-6 sm:px-12 md:px-16 lg:px-24 py-4 sm:py-5 md:py-6 text-base sm:text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 relative overflow-hidden group min-h-[3.5rem] sm:min-h-[3.5rem] md:min-h-[4rem] disabled:opacity-75 disabled:cursor-not-allowed disabled:hover:scale-100"
+              className="relative w-full px-8 py-5 sm:px-12 sm:py-6 bg-gradient-to-r from-primary-500 via-primary-600 to-secondary-600 text-white font-black text-lg sm:text-xl rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 overflow-hidden group font-primary ring-4 ring-primary-400/20 ring-offset-0 disabled:opacity-75 disabled:cursor-not-allowed disabled:hover:scale-100 min-h-[3.5rem] sm:min-h-[4rem]"
             >
               <div className="relative z-10 flex items-center justify-center gap-3">
                 {isSubmitting || isLoading ? (
@@ -849,36 +801,29 @@ const templates: Template[] = [
                   </>
                 ) : (
                   <motion.span
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: 0.1 }}
+                    className="drop-shadow-lg"
                   >
-                    Let's Create Your Proposal! 🚀
+                    Generate My Proposal
                   </motion.span>
                 )}
               </div>
-              
-              {/* Premium hover effect - disabled during loading */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none"
-                initial={{ x: "-100%" }}
-                whileHover={isSubmitting || isLoading ? {} : { x: "100%" }}
-                transition={{ duration: 0.6, ease: "easeInOut" }}
-              />
-              
-              {/* Loading overlay effect */}
-              <AnimatePresence>
-                {(isSubmitting || isLoading) && (
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-primary-600/20 to-secondary-600/20 backdrop-blur-sm rounded-2xl"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                )}
-              </AnimatePresence>
+              <div className="absolute inset-0 bg-gradient-to-r from-white/30 via-white/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-primary-400/20 to-secondary-400/20 rounded-2xl animate-pulse"></div>
             </button>
+            <AnimatePresence>
+              {(isSubmitting || isLoading) && (
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-primary-600/20 to-secondary-600/20 backdrop-blur-sm rounded-2xl"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                />
+              )}
+            </AnimatePresence>
           </motion.div>
         </motion.div>
 

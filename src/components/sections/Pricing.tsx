@@ -14,71 +14,71 @@ const Pricing: React.FC<PricingProps> = ({ className = '', scrollToTool, navigat
 
   const plans = [
     {
-      name: 'Free',
+      name: 'Starter',
       price: '$0',
-      description: 'Perfect for getting started',
+      description: 'Test your way to higher earnings',
       features: [
-        '5 proposals per month',
-        'Basic templates',
-        'AI-powered generation',
-        'Export to PDF',
-        'Email support'
+        '5 AI-powered proposals per month',
+        'Win your first 2-3 clients',
+        'See the 85% win rate in action',
+        'Professional PDF exports',
+        'Email support when you need help'
       ],
       highlighted: false,
-      cta: 'Start Free'
+      cta: 'Start Earning More'
     },
     {
       name: 'Professional',
       price: '$19',
-      description: 'Best for serious freelancers',
+      description: 'Earn $1,000+ more per month',
       features: [
-        'Unlimited proposals',
-        'Premium templates',
-        'Custom branding',
-        'Priority support',
-        'Advanced analytics',
-        'Export to Word & PDF'
+        'Unlimited proposals = unlimited earnings',
+        'Premium templates that justify higher rates',
+        'Stand out with custom branding',
+        'Get help when you need it most',
+        'Track your proposal success rate',
+        'Professional Word & PDF exports'
       ],
       highlighted: true,
-      cta: 'Get Started'
+      cta: 'Maximize Your Income'
     },
     {
       name: 'Agency',
       price: '$49',
-      description: 'For teams and agencies',
+      description: 'Scale your client acquisition',
       features: [
         'Everything in Professional',
-        'Team collaboration',
-        'Client management',
-        'Custom templates',
-        'API access',
-        'Dedicated support'
+        'Collaborate with your team seamlessly',
+        'Impress clients with a professional portal',
+        'Build your brand with white-label options',
+        'Integrate with your existing tools',
+        'Priority support for your growing business'
       ],
       highlighted: false,
-      cta: 'Contact Sales'
+      cta: 'Scale Your Agency'
     }
   ];
 
   return (
-    <section className={`py-20 ${className}`}>
+    <section className={`py-20 lg:py-24 ${className}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center"
+          className="text-center mb-12"
         >
-          <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${
+          <h2 className={`text-4xl sm:text-5xl md:text-6xl font-black mb-6 ${
             theme === 'dark' ? 'text-white' : 'text-gray-900'
           }`}>
-            Simple, Transparent Pricing
+            Invest in Your Success
           </h2>
-          <p className={`text-lg sm:text-xl mb-4 ${
-            theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+          <p className={`text-xl sm:text-2xl md:text-3xl leading-relaxed font-medium ${
+            theme === 'dark' ? 'text-gray-200' : 'text-gray-700'
           }`}>
-            Start free, no credit card required
+            Start free and see how much more you can earn with better proposals
           </p>
-          <div className="flex items-center justify-center gap-4 mb-12">
+          <div className="flex items-center justify-center gap-4 mb-8">
             <div className="flex items-center gap-2 text-green-400">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -101,16 +101,15 @@ const Pricing: React.FC<PricingProps> = ({ className = '', scrollToTool, navigat
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className={`p-8 rounded-2xl ${
+              className={`p-8 rounded-2xl border transition-all duration-300 hover:scale-105 hover:-translate-y-1 hover:shadow-2xl ${
                 plan.highlighted
                   ? theme === 'dark'
-                    ? 'bg-blue-900 border-blue-700 ring-2 ring-blue-500'
-                    : 'bg-blue-50 border-blue-200 ring-2 ring-blue-500'
+                    ? 'bg-gradient-to-br from-indigo-600/20 to-purple-600/20 border-indigo-500/50 shadow-2xl shadow-indigo-500/20 hover:border-indigo-400/60'
+                    : 'bg-gradient-to-br from-indigo-50 to-purple-50 border-indigo-500 shadow-xl shadow-indigo-500/20 hover:border-indigo-400 hover:shadow-2xl'
                   : theme === 'dark'
-                    ? 'bg-slate-800 border-slate-700'
-                    : 'bg-white border-gray-200'
-              } border`}
-            >
+                    ? 'bg-slate-800/60 border-slate-700/40 hover:bg-slate-800/80 hover:border-slate-600/50'
+                    : 'bg-white border-gray-200/60 hover:bg-gray-50/80 hover:border-gray-300/80'
+              }`}>
               <div className="text-center">
                 <h3 className={`text-2xl font-bold mb-2 ${
                   theme === 'dark' ? 'text-white' : 'text-gray-900'
@@ -173,6 +172,25 @@ const Pricing: React.FC<PricingProps> = ({ className = '', scrollToTool, navigat
             </motion.div>
           ))}
         </div>
+
+        {/* CTA Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="text-center mt-16"
+        >
+          <motion.button
+            whileHover={{ scale: 1.05, y: -3 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="relative w-full sm:w-auto px-10 py-5 sm:px-20 sm:py-7 bg-gradient-to-r from-primary-500 via-primary-600 to-secondary-600 text-white font-black text-xl sm:text-2xl rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 overflow-hidden group font-primary ring-4 ring-primary-400/20 ring-offset-0"
+          >
+            <span className="relative z-10 drop-shadow-lg">Start Free</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-white/30 via-white/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-primary-400/20 to-secondary-400/20 rounded-2xl animate-pulse"></div>
+          </motion.button>
+        </motion.div>
       </div>
     </section>
   );

@@ -98,8 +98,13 @@ const Home = () => {
       {/* Hero Section - Clean, focused */}
       <Hero scrollToTool={scrollToTool} navigate={navigate} />
 
+      {/* Trust Section - Social Proof Near CTA */}
+      <Suspense fallback={<LoadingFallback type="section" />}>
+        <TrustSection />
+      </Suspense>
+
       {/* Main Tool Section - Primary Focus */}
-      <section id="tool" className="py-20 lg:py-32">
+      <section id="tool" className="py-20 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Suspense fallback={<LoadingFallback type="section" />}>
             <MainTool />
@@ -107,31 +112,9 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Trust Section - Secondary Support */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Suspense fallback={<LoadingFallback type="section" />}>
-            <TrustSection />
-          </Suspense>
-        </div>
-      </section>
-
-      {/* Testimonials - Tertiary Support */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Suspense fallback={<LoadingFallback type="section" />}>
-            <Testimonials />
-          </Suspense>
-        </div>
-      </section>
-
       {/* Additional Sections */}
       <Suspense fallback={<LoadingFallback type="section" />}>
         <Features />
-      </Suspense>
-
-      <Suspense fallback={<LoadingFallback type="section" />}>
-        <Demo />
       </Suspense>
 
       <Suspense fallback={<LoadingFallback type="section" />}>

@@ -35,32 +35,32 @@ interface FeaturesProps {
 // Features data - moved outside component to prevent re-creation
 const features = [
   {
-    title: 'AI-Powered Generation',
-    description: 'Advanced AI algorithms create professional, customized proposals in seconds.',
+    title: 'Win 85% More Projects',
+    description: 'AI-generated proposals that consistently win clients and increase your revenue.',
     icon: <BrainIcon />,
     color: 'from-indigo-500 to-purple-600',
     bgColor: 'bg-indigo-500/10 dark:bg-indigo-500/20',
     borderColor: 'border-indigo-500/20 dark:border-indigo-500/30'
   },
   {
-    title: 'Professional Templates',
-    description: 'Industry-tested templates for various project types and industries.',
+    title: 'Save 10 Hours Per Week',
+    description: 'Create professional proposals in 60 seconds instead of spending hours writing them manually.',
     icon: <DocumentIcon />,
     color: 'from-blue-500 to-cyan-600',
     bgColor: 'bg-blue-500/10 dark:bg-blue-500/20',
     borderColor: 'border-blue-500/20 dark:border-blue-500/30'
   },
   {
-    title: 'Customizable Content',
-    description: 'Tailor every aspect of your proposal to match your unique style.',
+    title: 'Look Like a Pro',
+    description: 'Industry-tested templates that make you stand out from competitors and justify higher rates.',
     icon: <PaletteIcon />,
     color: 'from-purple-500 to-pink-600',
     bgColor: 'bg-purple-500/10 dark:bg-purple-500/20',
     borderColor: 'border-purple-500/20 dark:border-purple-500/30'
   },
   {
-    title: 'Export & Share',
-    description: 'Multiple export formats and easy sharing options for seamless collaboration.',
+    title: 'Close Deals Faster',
+    description: 'Impress clients instantly and get project approvals 3x faster with compelling proposals.',
     icon: <ShareIcon />,
     color: 'from-emerald-500 to-teal-600',
     bgColor: 'bg-emerald-500/10 dark:bg-emerald-500/20',
@@ -72,29 +72,29 @@ const Features: React.FC<FeaturesProps> = ({ className = '' }) => {
   const { theme } = useTheme();
 
   return (
-    <section className={`py-24 ${className}`}>
+    <section className={`py-20 lg:py-24 ${className}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <h2 className={`text-4xl md:text-5xl font-bold mb-6 ${
+          <h2 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 sm:mb-6 ${
             theme === 'dark' ? 'text-white' : 'text-gray-900'
           }`}>
-            Powerful Features
+            Transform Your Freelance Business
           </h2>
-          <p className={`text-xl md:text-2xl max-w-3xl mx-auto ${
-            theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+          <p className={`text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed font-medium ${
+            theme === 'dark' ? 'text-gray-200' : 'text-gray-700'
           }`}>
-            Everything you need to create winning proposals
+            Stop wasting time on proposals. Start winning more clients and growing your income.
           </p>
         </motion.div>
 
         {/* Feature Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
           {features.map((feature, index) => (
             <motion.div
               key={index}
@@ -102,30 +102,30 @@ const Features: React.FC<FeaturesProps> = ({ className = '' }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               whileHover={{ y: -8, scale: 1.02 }}
-              className={`group relative p-8 rounded-3xl border backdrop-blur-sm transition-all duration-500 hover:shadow-2xl ${
+              className={`group relative p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl border backdrop-blur-sm transition-all duration-500 hover:shadow-2xl hover:scale-105 hover:-translate-y-1 ${
                 theme === 'dark' 
-                  ? 'bg-slate-800/60 border-slate-700/40 hover:bg-slate-800/80' 
-                  : 'bg-white/90 border-gray-200/60 hover:bg-white/95'
-              }`}
+                  ? 'bg-slate-800/60 border-slate-700/40 hover:bg-slate-800/80 hover:border-slate-600/50' 
+                  : 'bg-white/90 border-gray-200/60 hover:bg-white/95 hover:border-gray-300/80'
+                }`}
             >
               {/* Branded background overlay */}
               <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${feature.color} opacity-5 group-hover:opacity-10 transition-opacity duration-500`} />
               
               {/* Icon Container with enhanced styling */}
-              <div className={`inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-r ${feature.color} mb-8 shadow-xl group-hover:shadow-2xl transition-all duration-500 relative overflow-hidden`}>
-                <div className="absolute inset-0 bg-white/20 group-hover:bg-white/30 transition-colors duration-500" />
-                <div className="relative text-white">
+              <div className={`inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-2xl sm:rounded-3xl bg-gradient-to-r ${feature.color} mb-4 sm:mb-6 lg:mb-8 shadow-xl group-hover:shadow-2xl transition-all duration-500 relative overflow-hidden group-hover:scale-110`}>
+                <div className="absolute inset-0 bg-white/20 group-hover:bg-white/30 transition-all duration-500" />
+                <div className="relative text-white transition-transform duration-500 group-hover:scale-110">
                   {feature.icon}
                 </div>
               </div>
               
               {/* Content with improved typography */}
-              <h3 className={`text-xl font-bold mb-4 ${
+              <h3 className={`text-xl sm:text-2xl font-black mb-3 sm:mb-4 ${
                 theme === 'dark' ? 'text-white' : 'text-gray-900'
               }`}>
                 {feature.title}
               </h3>
-              <p className={`text-sm leading-relaxed ${
+              <p className={`text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed font-medium ${
                 theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
               }`}>
                 {feature.description}
@@ -138,28 +138,23 @@ const Features: React.FC<FeaturesProps> = ({ className = '' }) => {
           ))}
         </div>
 
-        {/* Bottom CTA */}
+        {/* CTA Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
           className="text-center mt-16"
         >
-          <div className={`inline-flex items-center gap-6 px-8 py-4 rounded-2xl border ${
-            theme === 'dark'
-              ? 'bg-slate-800/50 border-slate-700/50 text-gray-300'
-              : 'bg-white/80 border-gray-200/50 text-gray-700'
-          } backdrop-blur-sm`}>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-sm font-medium">All features included</span>
-            </div>
-            <div className="w-px h-6 bg-gray-300 dark:bg-gray-600"></div>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-              <span className="text-sm font-medium">No credit card required</span>
-            </div>
-          </div>
+          <motion.button
+            whileHover={{ scale: 1.05, y: -3 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="relative w-full sm:w-auto px-10 py-5 sm:px-20 sm:py-7 bg-gradient-to-r from-primary-500 via-primary-600 to-secondary-600 text-white font-black text-xl sm:text-2xl rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 overflow-hidden group font-primary ring-4 ring-primary-400/20 ring-offset-0"
+          >
+            <span className="relative z-10 drop-shadow-lg">Start Free</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-white/30 via-white/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-primary-400/20 to-secondary-400/20 rounded-2xl animate-pulse"></div>
+          </motion.button>
         </motion.div>
       </div>
     </section>

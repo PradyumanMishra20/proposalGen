@@ -51,7 +51,7 @@ const TrustSection: React.FC = () => {
   const { theme } = useTheme();
 
   const containerClasses = `
-    py-16 sm:py-20 lg:py-24
+    py-20 lg:py-24
     ${theme === 'dark' ? 'bg-slate-900' : 'bg-white'}
   `;
 
@@ -87,77 +87,48 @@ const TrustSection: React.FC = () => {
           className="text-center mb-16"
         >
           {/* Avatars Row */}
-          <div className="flex justify-center items-center gap-2 mb-6">
-            <div className="flex -space-x-2">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 border-2 border-white dark:border-slate-900" />
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-green-500 to-teal-500 border-2 border-white dark:border-slate-900" />
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-orange-500 to-red-500 border-2 border-white dark:border-slate-900" />
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 border-2 border-white dark:border-slate-900" />
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 to-blue-500 border-2 border-white dark:border-slate-900" />
+          <div className="flex justify-center items-center gap-3 mb-8">
+            <div className="flex -space-x-3">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 border-3 border-white dark:border-slate-900 shadow-lg" />
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-green-500 to-teal-500 border-3 border-white dark:border-slate-900 shadow-lg" />
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-orange-500 to-red-500 border-3 border-white dark:border-slate-900 shadow-lg" />
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 border-3 border-white dark:border-slate-900 shadow-lg" />
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-500 to-blue-500 border-3 border-white dark:border-slate-900 shadow-lg" />
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 border-3 border-white dark:border-slate-900 shadow-lg" />
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <span className="text-sm font-medium text-green-500">Active now</span>
             </div>
           </div>
           
-          <h2 className={headingClasses}>
-            <span className="text-primary-600 dark:text-primary-400">10,000+</span> Happy Users
+          <h2 className={`text-4xl sm:text-5xl md:text-6xl font-black mb-4 ${
+            theme === 'dark' ? 'text-white' : 'text-gray-900'
+          }`}>
+            <span className="bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent">10,000+</span> Happy Users
           </h2>
-          <p className={`text-lg font-medium mb-4 ${
+          <p className={`text-xl sm:text-2xl font-medium mb-6 ${
             theme === 'dark' ? 'text-gray-200' : 'text-gray-700'
           }`}>
             Trusted by freelancers, agencies, and professionals worldwide
           </p>
-          <p className={subheadingClasses}>
-            Join thousands who are winning more clients with AI-powered proposals
-          </p>
-        </motion.div>
-
-        {/* Trust Metrics */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20"
-        >
-          <div className={cardClasses}>
-            <div className="flex items-center justify-between mb-4">
-              <Users className={`w-8 h-8 ${theme === 'dark' ? 'text-primary-400' : 'text-primary-600'}`} />
-              <span className="text-3xl font-bold font-primary text-primary-600 dark:text-primary-400">10,000+</span>
+          <div className="flex flex-wrap justify-center gap-6 text-sm">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>85% Win Rate</span>
             </div>
-            <h3 className={`text-lg font-semibold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-              Active Users
-            </h3>
-            <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
-              Amazing people using ProposalGen every day
-            </p>
-          </div>
-
-          <div className={cardClasses}>
-            <div className="flex items-center justify-between mb-4">
-              <TrendingUp className={`w-8 h-8 ${theme === 'dark' ? 'text-success-400' : 'text-success-600'}`} />
-              <span className="text-3xl font-bold font-primary text-success-600 dark:text-success-400">85%</span>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+              <span className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>4.9/5 Rating</span>
             </div>
-            <h3 className={`text-lg font-semibold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-              Win Rate
-            </h3>
-            <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
-              Proposals that win clients over
-            </p>
-          </div>
-
-          <div className={cardClasses}>
-            <div className="flex items-center justify-between mb-4">
-              <Star className={`w-8 h-8 ${theme === 'dark' ? 'text-warning-400' : 'text-warning-600'}`} />
-              <span className="text-3xl font-bold font-primary text-warning-600 dark:text-warning-400">4.9</span>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+              <span className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>2,500+ Reviews</span>
             </div>
-            <h3 className={`text-lg font-semibold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-              User Rating
-            </h3>
-            <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
-              Based on 2,500+ reviews
-            </p>
           </div>
         </motion.div>
 
+        
         {/* Testimonials */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -166,13 +137,18 @@ const TrustSection: React.FC = () => {
           viewport={{ once: true }}
           className="mb-20"
         >
-          <h3 className={`text-2xl sm:text-3xl font-bold text-center mb-12 font-primary ${
+          <h3 className={`text-3xl sm:text-4xl md:text-5xl font-black text-center mb-4 font-primary ${
             theme === 'dark' ? 'text-white' : 'text-gray-900'
           }`}>
-            What Our Users Say
+            Loved by Thousands
           </h3>
+          <p className={`text-lg sm:text-xl text-center mb-12 max-w-3xl mx-auto font-medium ${
+            theme === 'dark' ? 'text-gray-200' : 'text-gray-700'
+          }`}>
+            See what professionals are saying about ProposalGen
+          </p>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {testimonials.map((testimonial, index) => (
               <motion.div
                 key={testimonial.id}
@@ -180,7 +156,11 @@ const TrustSection: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 * index }}
                 viewport={{ once: true }}
-                className={cardClasses}
+                className={`p-6 sm:p-8 rounded-2xl border backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:scale-105 hover:-translate-y-1 ${
+                  theme === 'dark' 
+                    ? 'bg-slate-800/60 border-slate-700/40 hover:bg-slate-800/80 hover:border-slate-600/50' 
+                    : 'bg-white border-gray-200/60 hover:bg-gray-50/80 hover:border-gray-300/80'
+                }`}
               >
                 {/* Rating */}
                 <div className="flex gap-1 mb-4">
